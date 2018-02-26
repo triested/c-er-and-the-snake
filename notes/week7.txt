@@ -1,3 +1,6 @@
+Questions for Boyana:
+A. Lots of sites advocate the "composition over inheritance" approach for games. If we were to use that approach, how would we store a game grid? (since individual game objects wouldn't necessarily share a single parent class)
+
 Initial plan:
 
 Sam:
