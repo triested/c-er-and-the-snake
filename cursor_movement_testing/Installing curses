@@ -1,0 +1,4 @@
+To install the curses library run apt get install on:
+
+libncurses5-dev
+libncursesw5-dev
