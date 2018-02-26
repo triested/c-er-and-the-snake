@@ -1,0 +1,26 @@
+Initial plan:
+
+Sam:
+1. Sketch code for moving cursor in terminal in order to print over previous game screen at each step.
+2. Code for random level generation.
+	Levels will consist of these characters:
+	# walls
+	. floors
+	@ player
+	x mobs
+	H health
+	others?
+
+
+Trieste:
+1. Start code for data structure for game.
+	Vector of vector of tile objects.
+	Tile object is superclass for:
+		floors
+		walls
+		player
+		more eventually
+		
+2. Player control/step function
+	Each step player can move or use weapon.
+	Player can't walk through walls and other good stuff like that.
