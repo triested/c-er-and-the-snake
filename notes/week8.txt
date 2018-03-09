@@ -1,0 +1,1 @@
+Sam further developed procedural level generation tests, found a way to flash titles and messages nicely. Trieste established the overall class structure and began implementing some of it. We spent a fair bit of time discussing mechanics inmore detail.
