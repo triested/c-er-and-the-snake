@@ -8,14 +8,36 @@ void Player::move(Direction direction)
     switch(Direction)
     {
         case RIGHT:
-            if (!grid->isWall(x, y+1))
+            if (!grid->isFloor(x, y+1))
             {
+                grid->setSquare(x, y, '.');
                 y++;
-                grid->setSquare()
+                grid->setSquare(x, y, '@');
             }
+            break;
         case UP:
+            if (!grid->isFloor(x-1, y))
+            {
+                grid->setSquare(x, y, '.');
+                x--;
+                grid->setSquare(x-1, y, '@');
+            }
+            break;
         case LEFT:
+            if (!grid->isFloor(x, y-1))
+            {
+                grid->setSquare(x, y, '.');
+                y--;
+                grid->setSquare(x, y, '@');
+            }
+            break;
         case DOWN:
+            if (!grid->isFloor(x+1, y))
+            {
+                grid->setSquare(x, y, '.');
+                y++;
+                grid->setSquare(x, y, '@');
+            }
     }
 }
 
