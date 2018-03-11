@@ -127,21 +127,39 @@ def make_doors(grid):
         door_flavour = randint(1, 4)
         if door_flavour == 1:
             # Try to put door on column, looking from top.
-            col = randint(0, width)
-            # for i in range(height):
-                # if grid   #TODO FIX DO
+            x = randint(0, width)
+            for y in range(height):
+                if grid[y][x] == "#" and "." in orthog_neighbors(grid, min([height,width]), [x,y]):
+                    grid[y][x] = "D"
+                    placed_doors += 1
+                    break
 
         elif door_flavour == 2:
             # Try to put door on column, looking from bottom.
-            col = randint(0, width)
+            x = randint(0, width)
+            for y in range(height - 1, -1, -1):
+                if grid[y][x] == "#" and "." in orthog_neighbors(grid, min([height,width]), [x,y]):
+                    grid[y][x] = "D"
+                    placed_doors += 1
+                    break
 
         elif door_flavour == 3:
             # Try to put door on row, looking from top.
-            row = randint(0, height)
+            y = randint(0, height)
+            for x in range(width):
+                if grid[y][x] == "#" and "." in orthog_neighbors(grid, min([height,width]), [x,y]):
+                    grid[y][x] = "D"
+                    placed_doors += 1
+                    break
 
         elif door_flavour == 4:
             # Try to put door on row, looking from bottom.
-            row = randint(0, height)
+            y = randint(0, height)
+            for x in range(width -1, -1, -1):
+                if grid[y][x] == "#" and "." in orthog_neighbors(grid, min([height,width]), [x,y]):
+                    grid[y][x] = "D"
+                    placed_doors += 1
+                    break
 
 
 def make_room(floortype):
