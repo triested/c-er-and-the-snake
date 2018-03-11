@@ -24,6 +24,7 @@ class Grid
         Grid(ifstream &inFile);
         bool isWall(const int &row, const int &col) const;
         bool isFloor(const int &row, const int &col) const;
+        bool isMob(const int &row, const int &col) const;
         bool mobsAdjacent(const int &row, const int &col) const;
         void setSquare(const int row, const int col, const char aChar);
         void printGrid();
