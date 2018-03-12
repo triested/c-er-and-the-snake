@@ -9,17 +9,16 @@
 #include <stdlib.h>
 #include "room.hpp"
 
-
 using namespace std;
 
-Room::Room(char floor)
+Room::Room(char floor, vector<char> objs)
 {
     // Set class variables.
     this->maxDim = randint(8, 22);
     this->height = maxDim;
     this->width = maxDim;
     this->floortype = floor;
-
+    this->objects = objs;
     // Start the grid as array of ' 's.
     grid.resize(maxDim, vector<char>(width, ' '));
 
@@ -62,8 +61,28 @@ Room::Room(char floor)
 
     // Now add some walls with doors.
     makeWalls();
-    // Finally, trim down unused space in the vectors that make up the grid.
+    // Next, trim down unused space in the vectors that make up the grid.
     grid = trim();
+
+    //Finally, decorate the room with the objects we want in it:
+    decorate();
+}
+
+void Room::decorate()
+{
+    // Try to place all the objects in the object list class variable to random locations.
+    // Try 40 times the number of objects to be placed before giving up.
+    int placed = 0;
+    for (int i = 0; i < 40 * objects.size() ; ++i) {
+        Coords loc (randint(2, width - 2), randint(2, height - 2));
+        if (getLoc(loc) == floortype)
+        {
+            setLocPadded(loc, 0, objects[placed]);
+            placed += 1;
+        }
+        if (placed == objects.size())
+            break;
+    }
 }
 
 Room::~Room(){}
