@@ -12,7 +12,7 @@ class Room
 {
 public:
     // Constructor
-    Room(char floortype);
+    Room(char floortype, vector<char> objs);
     // Destructor
     ~Room();
 
@@ -24,6 +24,7 @@ private:
     int maxDim, width, height;
     char floortype;
     vector< vector<char> > grid;
+    vector<char> objects;
 
     // Helper methods:
     vector<char> withinN(Coords coord, int n);
@@ -38,6 +39,7 @@ private:
     bool makeRect(Coords coord, int w, int h);
     void makeWalls();
     vector< vector<char> > trim();
+    void decorate();
 };
 
 #endif

@@ -9,15 +9,21 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     srand(time(NULL));
     char floor = '.';
+    vector<char> stuff;
+    stuff = {'1','2','3','4','5','6','7','8'};
     vector< vector<char> > grid;
-    Room rm = Room(floor);
+    Room rm = Room(floor, stuff);
     grid = rm.getGrid();
 
-    for (int i = 0; i < grid.size(); ++i) {
-        for (int j = 0; j < grid[0].size(); ++j) {
+
+    for (int i = 0; i < grid.size(); ++i)
+    {
+        for (int j = 0; j < grid[0].size(); ++j)
+        {
             cout << grid[i][j];
         }
         cout << endl;
