@@ -62,8 +62,8 @@ Room::Room(char floor)
 
     // Now add some walls with doors.
     makeWalls();
-    // Finally, trim down unused space in the vectors.
-    trim();
+    // Finally, trim down unused space in the vectors that make up the grid.
+    grid = trim();
 }
 
 Room::~Room(){}
@@ -85,13 +85,13 @@ vector<char> Room::withinN(Coords coord, int n)
 {
     // Returns a vector of all tiles within n distance of a coordinate.
     vector<char> v;
-    for (int y = coord.second - n; y < coord.second + n; ++y)
+    for (int y = coord.second - n; y < coord.second + n + 1; ++y)
     {
-            for (int x = coord.first - n; x < coord.first + n; ++x)
-            {
-                if (x >= 0 && y >= 0 && y < height && x < width && (x != 0 || y != 0))
-                    v.push_back(grid[y][x]);
-            }
+        for (int x = coord.first - n; x < coord.first + n + 1; ++x)
+        {
+            if (x >= 0 && y >= 0 && y < height && x < width && (x != coord.first || y != coord.second))
+                v.push_back(grid[y][x]);
+        }
     }
     return v;
 }
@@ -106,13 +106,14 @@ vector<char> Room::orthogNeighbors(Coords coord)
 {
     // Returns a vector of all tiles orthogonally adjacent to a coordinate.
     vector<char> v;
-    for (int y = coord.second - 1; y < coord.second + 1; ++y)
+    for (int y = coord.second - 1; y < coord.second + 2; ++y)
     {
-            for (int x = coord.first - 1; x < coord.first + 1; ++x)
-            {
-                if (x >= 0 && y >= 0 && y < height && x < width && (x != 0 || y != 0) && (x == 0 || y == 0))
-                    v.push_back(grid[y+1][x+1]);
-            }
+        for (int x = coord.first - 1; x < coord.first + 2; ++x)
+        {
+            if (x >= 0 && y >= 0 && y < height && x < width &&
+                    (x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
+                v.push_back(grid[y][x]);
+        }
     }
     return v;
 }
@@ -190,6 +191,7 @@ bool Room::makeRect(Coords coord, int w, int h)
 
 void Room::makeWalls()
 {
+    vector<Coords> walls;
     // Function to make walls around the floor of the room.
     for (int y = 0; y < height; ++y)
     {
@@ -199,200 +201,93 @@ void Room::makeWalls()
             vector<char> n = neighbors(loc);
             int floor = count(n.begin(), n.end(), floortype);
             if (floor != 0 && getLoc(loc) == ' ')
+            {
+                // Every tile that has an adjacent floor and is empty gets set to a wall.
                 setLocPadded(loc, 1, '#');
+                walls.push_back(loc);
+            }
+        }
+    }
+    // Now that a vector of the coordinates of the wall tiles has been created, lets place some doors.
+    int numDoors = randint(1,4);
+    int placedDoors = 0;
+
+    // Make twenty attempts to place n doors.
+    for (int i = 0; i < 20; ++i)
+    {
+        int choice = randint(0, walls.size() - 1);
+        vector<char> n = orthogNeighbors(walls[choice]);
+        int blanks = count(n.begin(), n.end(), ' ');
+        int floors = count(n.begin(), n.end(), floortype);
+        // Don't place doors within five spaces of other doors.
+        vector<char> withinFive = withinN(walls[choice], 5);
+        int doors = count(withinFive.begin(), withinFive.end(), 'D');
+        if (blanks != 0 && floors != 0 && doors == 0)
+        {
+            setLocPadded(walls[choice], 1, 'D');
+            placedDoors += 1;
+        }
+        if (placedDoors == numDoors)
+            break;
+    }
+
+    //Spaces are also reserved around the floor in order to make sure corridors can be created later.
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            Coords loc (x,y);
+            vector<char> n = neighbors(loc);
+            int wall = count(n.begin(), n.end(), '#');
+            int door = count(n.begin(), n.end(), 'D');
+            if (wall + door != 0 && getLoc(loc) == ' ')
+            {
+                // Every tile that has an adjacent wall and is empty gets reserved for hallway.
+                setLocPadded(loc, 0, 'R');
+            }
         }
     }
 }
 
 vector< vector<char> > Room::trim()
 {
-    return grid;
-}
-
-
-
-/*
-void Board::run(int numSteps) {
-    // First display starting condition.
-    cout << "Starting world:" << endl;
-    display(even);
-    for (int i = 0; i < numSteps; ++i) {
-        // Check if this is an even or odd step.
-        curStep += 1;
-        cout << "Step " << curStep << ":" << endl;
-        if (curStep % 2 == 1){
-            // Take a step, then display the board.
-            step(odd, even);
-            display(odd);
-        }else{
-            // Take a step, then display the board.
-            step(even, odd);
-            display(even);
-        }
-    }
-    cout << endl;
-}
-
-void Board::step(vector< vector<char> > & grid, vector< vector<char> > & prev) {
-    // Iterate through the grid and apply
-    // all of the rules for predation and reproduction.
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-
-            // Figure out some stuff about neighboring tiles:
-            vector<char> n = neighbors(prev, x, y);
-            int sheepCount = count(n.begin(), n.end(), 'S');
-            int wolfCount = count(n.begin(), n.end(), 'W');
-            int farmerCount = count(n.begin(), n.end(), 'F');
-
-            // Rule 1.1: Sheep overpopulation.
-            if (prev[y][x] == 'S'){
-                if (sheepCount > 3) {
-                    grid[y][x] = '.';
-                }
-            }
-            // Rule 1.2: Wolf overpopulation.
-            if (prev[y][x] == 'W'){
-                if (wolfCount > 3) {
-                    grid[y][x] = '.';
-                }
-            }
-            // Rule 2: Wolves predate sheep.
-            if (prev[y][x] == 'S'){
-                if (wolfCount > 0) {
-                    grid[y][x] = '.';
-                }
-            }
-            // Rule 3: Reproduction.
-            if (prev[y][x] == '.'){
-                if (sheepCount == 2) {
-                    grid[y][x] = 'S';
-                }else if (wolfCount == 2) {
-                    grid[y][x] = 'W';
-                }else if (farmerCount == 2) {
-                    grid[y][x] = 'F';
-                }else{
-                    grid[y][x] = '.';
-                }
-            }
-            // Rule 4: Farmers predate wolves.
-            if (prev[y][x] == 'W'){
-                if (farmerCount > 0) {
-                    grid[y][x] = '.';
-                }
-            }
-            // Rule 5: Wolf starvation.
-            if (prev[y][x] == 'W'){
-                if (sheepCount == 0) {
-                    grid[y][x] = '.';
-                }
+    // Since the room is generated in a larger grid, there may
+    // be a bunch of empty spaces, so those can be trimmed out.
+    int min_y = height;
+    int max_y = 0;
+    int min_x = width;
+    int max_x = 0;
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            Coords loc (x,y);
+            if (getLoc(loc) != ' ')
+            {
+                if (y < min_y)
+                    min_y = y;
+                if (x < min_x)
+                    min_x = x;
+                if (y > max_y)
+                    max_y = y;
+                if (x > max_x)
+                    max_x = x;
             }
         }
     }
+    // The size of the room has now been determined.
+    this->height = max_y - min_y + 1;
+    this->width = max_x - min_x + 1;
 
-    */
-/*I decided that farmer movement should be based on the current grid,
-    * rather than on the state of the previous grid. Thus, farmer movement
-    * occurs in a separate pass through the grid.*//*
+    vector< vector<char> > newGrid;
+    newGrid.resize(height, vector<char>(width, '~'));
 
-
-    // Rule 6: Farmer movement.
-    // Do a pass through the current board to have farmers move.
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            if (prev[y][x] == 'F') {
-                vector<char> n = neighbors(grid, x, y);
-                int emptyCount = count(n.begin(), n.end(), '.');
-                if (emptyCount > 0) {
-                    grid[y][x] = '.';
-
-                    // This is such a hideous way to do this...
-                    vector< vector<int> > targets;
-                    if (y != 0) { // Add the upper neighbor.
-                        if (grid[y-1][x] == '.'){ // If that spot is empty.
-                            targets.push_back({y-1,x});
-                        }
-                    }
-                    if (y != height - 1){ // Add lower neighbor.
-                        if (grid[y+1][x] == '.'){ // If that spot is empty.
-                            targets.push_back({y+1,x});
-                        }
-                    }
-                    if (x != 0) { // Add left.
-                        if (grid[y][x-1] == '.'){ // If that spot is empty.
-                            targets.push_back({y,x-1});
-                        }
-                    }
-                    if (x != width - 1) { // Add right.
-                        if (grid[y][x+1] == '.'){ // If that spot is empty.
-                            targets.push_back({y,x+1});
-                        }
-                    }
-                    if (y != 0 && x!= 0){ // Add ul
-                        if (grid[y-1][x-1] == '.'){ // If that spot is empty.
-                            targets.push_back({y-1,x-1});
-                        }
-                    }
-                    if (y != 0 && x!= width){ // Add ur
-                        if (grid[y-1][x+1] == '.'){ // If that spot is empty.
-                            targets.push_back({y-1,x+1});
-                        }
-                    }
-                    if (y != height - 1 && x!= 0){ // Add ll
-                        if (grid[y+1][x-1] == '.'){ // If that spot is empty.
-                            targets.push_back({y+1,x-1});
-                        }
-                    }
-                    if (y != height - 1 && x!= width - 1){ // Add ll
-                        if (grid[y+1][x+1] == '.'){ // If that spot is empty.
-                            targets.push_back({y+1,x+1});
-                        }
-                    }
-                    // Randomly choose one of the possible targets added to the vector.
-                    int choice = rand() % targets.size();
-                    // Set the coordinates of that target to a farmer.
-                    grid[targets[choice][0]][targets[choice][1]] = 'F';
-                }
-            }
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            newGrid[y][x] = grid[y + min_y][x + min_x];
         }
     }
+    return newGrid;
 }
-
-void Board::display(vector< vector<char> > & grid) {
-    // Print all data from the board.
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            cout << grid[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-vector<char> Board::neighbors(vector< vector<char> > & grid, int x, int y) {
-    // Collects all neighbors for a given tile and returns them as a vector.
-    vector<char> v;
-
-    if (y != 0) // Add the upper neighbor.
-        v.push_back(grid[y-1][x]);
-    if (y != height - 1) // Add lower neighbor.
-        v.push_back(grid[y+1][x]);
-
-    if (x != 0) // Add left.
-        v.push_back(grid[y][x-1]);
-    if (x != width - 1) // Add right.
-        v.push_back(grid[y][x+1]);
-
-    if (y != 0 && x!= 0) // Add ul.
-        v.push_back(grid[y-1][x-1]);
-    if (y != 0 && x!= width - 1) // Add ur.
-        v.push_back(grid[y-1][x+1]);
-
-    if (y != height - 1 && x!= 0) // Add ll.
-        v.push_back(grid[y+1][x-1]);
-    if (y != height - 1 && x!= width - 1) // Add lr.
-        v.push_back(grid[y+1][x+1]);
-
-    return v;
-}
-*/
