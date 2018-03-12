@@ -5,43 +5,47 @@ grid(aGrid), x(row), y(col) {}
     
 void Player::move(Direction direction)
 {
-    switch(Direction)
+    switch(direction)
     {
         case RIGHT:
-            if (!grid->isFloor(x, y+1))
+            if (grid->isFloor(x, y+1))
             {
                 grid->setSquare(x, y, '.');
                 y++;
                 grid->setSquare(x, y, '@');
+                grid->recenter(x, y);
             }
             break;
         case UP:
-            if (!grid->isFloor(x-1, y))
+            if (grid->isFloor(x-1, y))
             {
                 grid->setSquare(x, y, '.');
                 x--;
-                grid->setSquare(x-1, y, '@');
+                grid->setSquare(x, y, '@');
+                grid->recenter(x, y);
             }
             break;
         case LEFT:
-            if (!grid->isFloor(x, y-1))
+            if (grid->isFloor(x, y-1))
             {
                 grid->setSquare(x, y, '.');
                 y--;
                 grid->setSquare(x, y, '@');
+                grid->recenter(x, y);
             }
             break;
         case DOWN:
-            if (!grid->isFloor(x+1, y))
+            if (grid->isFloor(x+1, y))
             {
                 grid->setSquare(x, y, '.');
-                y++;
+                x++;
                 grid->setSquare(x, y, '@');
+                grid->recenter(x, y);
             }
     }
 }
 
 Coordinates Player::getLocation()
 {
-    return make_pair(x, y);
+    return std::make_pair(x, y);
 }

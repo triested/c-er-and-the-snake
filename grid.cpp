@@ -1,3 +1,6 @@
+#include "grid.hpp"
+#include <ncurses.h>
+
 Grid::Grid(ifstream &inFile)
 {
     string tempString;
@@ -7,19 +10,11 @@ Grid::Grid(ifstream &inFile)
         grid.push_back(tempString);
     }
     width = tempString.length();
-    length = grid.length();
-    //find player's starting position
-    for(int i = 0; i < length; i++)
-    {
-        for(int j = 0; j < width; j++)
-        {
-            if(grid[i][j] == '@')
-            {
-                x_player = i;
-                y_player = j;
-            }
-        }
-    }
+    length = grid.size();
+    /////////////these values only hardcoded til i have format of 
+    ////player starting location from Sam
+    x_center = 34;
+    y_center = 46;    
 }
 
 bool Grid::isWall(const int &row, const int &col) const
@@ -53,6 +48,11 @@ bool Grid::mobsAdjacent(const int &row, const int &col) const
     return false;
 }
 
+void Grid::recenter(const int row, const int col)
+{
+    x_center = row;
+    y_center = col;
+}
 
 void Grid::setSquare(const int row, const int col, const char aChar)
 {
@@ -62,11 +62,12 @@ void Grid::setSquare(const int row, const int col, const char aChar)
 void Grid::printGrid()
 {
     //print a square with a side length OFFSET*2+1, centered on player
-    for(int i = x_player - OFFSET; i < x_player + OFFSET; i++)
+    for(int i = x_center - OFFSET; i < x_center + OFFSET; i++)
     {
-        for(int j = y_player - OFFSET; j < y_player + OFFSET; j++)
+        for(int j = y_center - OFFSET; j < y_center + OFFSET; j++)
         {
-            cout << grid[i][j];
+            printw("%c", grid[i][j]);
         }
+        printw("\n");
     }
 }
