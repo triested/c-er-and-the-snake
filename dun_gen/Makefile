@@ -1,10 +1,10 @@
 CXX = g++
-CPPFLAGS = -std=c++14 -g -Wall
+CPPFLAGS = -std=c++14 -g -Wall -fstack-protector
 
 %.o : %.cpp
 	$(CXX) -c $(CPPFLAGS) $< 
 
-test-room.exe: room.o test.o
+test.exe: room.o dungeon.o test.o
 	$(CXX) -o $@ $^
 
 

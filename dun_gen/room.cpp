@@ -68,23 +68,6 @@ Room::Room(char floor, vector<char> objs)
     decorate();
 }
 
-void Room::decorate()
-{
-    // Try to place all the objects in the object list class variable to random locations.
-    // Try 40 times the number of objects to be placed before giving up.
-    int placed = 0;
-    for (int i = 0; i < 40 * objects.size() ; ++i) {
-        Coords loc (randint(2, width - 2), randint(2, height - 2));
-        if (getLoc(loc) == floortype)
-        {
-            setLocPadded(loc, 0, objects[placed]);
-            placed += 1;
-        }
-        if (placed == objects.size())
-            break;
-    }
-}
-
 Room::~Room(){}
 
 int Room::randint(int low, int high)
@@ -309,4 +292,33 @@ vector< vector<char> > Room::trim()
         }
     }
     return newGrid;
+}
+
+void Room::decorate()
+{
+    // Try to place all the objects in the object list class variable to random locations.
+    // Try 40 times the number of objects to be placed before giving up.
+    int placed = 0;
+    for (int i = 0; i < 40 * objects.size() ; ++i) {
+        Coords loc (randint(2, width - 2), randint(2, height - 2));
+        if (getLoc(loc) == floortype)
+        {
+            setLocPadded(loc, 0, objects[placed]);
+            placed += 1;
+        }
+        if (placed == objects.size())
+            break;
+    }
+}
+
+void Room::print()
+{
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            cout << grid[y][x];
+        }
+        cout << endl;
+    }
 }

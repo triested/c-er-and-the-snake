@@ -6,19 +6,16 @@
 #include <time.h>
 #include <stdlib.h>
 #include "room.hpp"
+#include "dungeon.hpp"
 
 using namespace std;
 
 int main()
 {
     srand(time(NULL));
-    char floor = '.';
-    vector<char> stuff;
-    stuff = {'1','2','3','4','5','6','7','8'};
     vector< vector<char> > grid;
-    Room rm = Room(floor, stuff);
-    grid = rm.getGrid();
-
+    Dungeon D = Dungeon();
+    grid = D.getGrid();
 
     for (int i = 0; i < grid.size(); ++i)
     {
