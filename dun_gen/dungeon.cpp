@@ -5,13 +5,43 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include <utility>
 #include <cmath>
+#include <queue>
 #include <stdlib.h>
+#include <functional>
 #include "room.hpp"
 #include "dungeon.hpp"
 
 using namespace std;
+
+
+template<typename T, typename priority_t>
+struct PQ
+{
+  typedef pair<priority_t, T> PQElement;
+  priority_queue <PQElement, vector<PQElement>,
+        greater<PQElement>> elements;
+
+  inline bool empty() const
+  {
+     return elements.empty();
+  }
+
+  inline void push(T el, priority_t priority)
+  {
+    elements.emplace(priority, el);
+  }
+
+  T pop()
+  {
+    T best = elements.top().second;
+    elements.pop();
+    return best;
+  }
+};
+
 
 Dungeon::Dungeon()
 {
@@ -51,6 +81,8 @@ Dungeon::Dungeon()
                 setLoc(loc, ' ');
         }
     }
+
+    // Now the hard part: connect all the rooms.
     connect();
 }
 
@@ -191,6 +223,25 @@ int Dungeon::makeRoom()
     return 1;
 }
 
+vector<Coords> Dungeon::pathableNeighbors(Coords coord)
+{
+    // Returns a vector of coordinates of tiles adjacent to a tile.
+    vector<Coords> v;
+    for (int y = coord.second - 1; y < coord.second + 2; ++y)
+    {
+        for (int x = coord.first - 1; x < coord.first + 2; ++x)
+        {
+            if (x != coord.first || y != coord.second)
+            {
+                Coords loc (x, y);
+                if (getLoc(loc) == ' ' || getLoc(loc) == 'D')
+                    v.push_back(loc);
+            }
+        }
+    }
+    return v;
+}
+
 void Dungeon::connect()
 {
 /*Vector of all the unfound doors.
@@ -225,15 +276,20 @@ void Dungeon::connect()
 
     while (unfoundDoors.size() > 0)
     {
-        Coords closestDoor = closest(unfoundDoors, centerPoint);
-        cout << closestDoor.first << " " << closestDoor.second << endl;
+        // First, find the closest unfound door to the center point of the found doors.
+        // Then, draw a path to that door from the closest point
+        Coords closestDoor = closest(unfoundDoors, centerPoint, true);
+        Coords startPoint = closest(nodes, closestDoor, false);
+        vector<Coords> route =  path(closestDoor, startPoint);
+
         break;
     }
 
-
+    // Now that corridors have been made, make walls around them.
+//    makeWalls();
 }
 
-Coords Dungeon::closest(vector <Coords> &nodes, Coords point)
+Coords Dungeon::closest(vector <Coords> &nodes, Coords point, bool erase)
 {
     // Function to find the node closest to a specified point.
     // Initialise min distance to the maximum possible distance.
@@ -251,13 +307,53 @@ Coords Dungeon::closest(vector <Coords> &nodes, Coords point)
     Coords close;
     close.first = nodes[min_Index].first;
     close.second = nodes[min_Index].second;
-    nodes.erase(nodes.begin() + min_Index);
+    if (erase)
+        nodes.erase(nodes.begin() + min_Index);
     return close;
 }
 
-vector<Coords> Dungeon::path(Coords a, Coords b)
+vector<Coords> Dungeon::path(Coords start, Coords finish)
 {
+    // Use some A*-ish pathfinding to get a path from a to b.
+    // A* is like Dijkstra's, but with the additional heuristic
+    // that nodes that are closer to the destination are given
+    // a higher priority in the priority queue.
+    vector<Coords> p;  // Vector to return with the path.
+    map <Coords, Coords> fromLoc;
+    map <Coords, int> costTo;
+    PQ <Coords, int> frontier;
+    frontier.push(start, 0);
 
+    fromLoc[start] = start;
+    costTo[start] = 0;
+
+    while(!frontier.empty())
+    {
+        Coords current = frontier.pop();
+
+        if (current == finish)
+            break;
+
+        vector<Coords> pendingCoords = pathableNeighbors(current);
+
+        for (int i = 0; i < pendingCoords.size(); ++i)
+        {
+            Coords pending = pendingCoords[i];
+            int costToPending = costTo[current] + 1;
+            if (costTo.find(pending) == costTo.end() || costToPending < costTo[pending])
+            {
+                costTo[pending] = costToPending;
+                int priorityOfPending = costToPending + distance(pending, finish);
+                fromLoc[pending] = current;
+                frontier.push(pending, priorityOfPending);
+            }
+        }
+    }
+
+    // Now we can trace back from the end point to the start point
+    // in the fromLoc dictionary.
+
+    return p;
 }
 
 void Dungeon::makeWalls()

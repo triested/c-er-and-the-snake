@@ -7,6 +7,8 @@
 using namespace std;
 
 typedef pair<int, int> Coords;
+typedef pair<Coords, int> PQEntry;
+
 
 class Dungeon
 {
@@ -38,13 +40,15 @@ private:
     char getLoc(Coords coord);
     int randint(int low, int high);
     int distance(Coords a, Coords b);
+    vector<Coords> pathableNeighbors(Coords coord);
+
 
 	// Methods to do the important things:
     void enterExit();
     int makeRoom();
     void connect();
 
-    Coords closest(vector<Coords> &nodes, Coords point);
+    Coords closest(vector<Coords> &nodes, Coords point, bool erase);
     vector<Coords> path(Coords a, Coords b);
 
     void makeWalls();
