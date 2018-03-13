@@ -52,7 +52,7 @@ Dungeon::Dungeon(int rooms)
     // For maybe implementing multiple types of room later.
     this->floortypes = {'.'};
     this->commonEntities = {'G'};
-    this->uncommonEntities = {'M','H'};
+    this->uncommonEntities = {'x','H'};
 
     // Start the grid as array of ' 's.
     grid.resize(height, vector<char>(width, ' '));
