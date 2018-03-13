@@ -14,7 +14,7 @@ class Dungeon
 {
 public:
     // Constructor
-    Dungeon();
+    Dungeon(int rooms);
     // Destructor
     ~Dungeon();
 
@@ -52,8 +52,6 @@ private:
     vector<Coords> path(Coords a, Coords b);
 
     void makeWalls();
-    void trim();
-
 };
 
 #endif

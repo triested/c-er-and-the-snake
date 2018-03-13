@@ -14,8 +14,11 @@ int main()
 {
     srand(time(NULL));
     vector< vector<char> > grid;
-    Dungeon D = Dungeon();
+    int numRooms = 40 + (rand() % (101-40));
+    Dungeon D = Dungeon(numRooms);
     grid = D.getGrid();
+
+    cout << D.startLocation.first << " " << D.startLocation.second << endl;
 
     for (int i = 0; i < grid.size(); ++i)
     {

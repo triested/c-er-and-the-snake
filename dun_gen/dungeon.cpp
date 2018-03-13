@@ -16,7 +16,6 @@
 
 using namespace std;
 
-
 template<typename T, typename priority_t>
 struct PQ
 {
@@ -43,10 +42,10 @@ struct PQ
 };
 
 
-Dungeon::Dungeon()
+Dungeon::Dungeon(int rooms)
 {
     // Set class variables.
-    this->numRooms = 80;
+    this->numRooms = rooms;
     this->height = 400;
     this->width = 400;
 
@@ -60,7 +59,6 @@ Dungeon::Dungeon()
 
     // First add an entrance and an exit:
     enterExit();
-    cout << startLocation.first << " " << startLocation.second << endl;
 
     // Try to add rooms. Many will fail and not actually be added.
     int placedRooms = 0;
@@ -231,10 +229,10 @@ vector<Coords> Dungeon::pathableNeighbors(Coords coord)
     {
         for (int x = coord.first - 1; x < coord.first + 2; ++x)
         {
-            if (x != coord.first || y != coord.second)
+            if ((x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
             {
                 Coords loc (x, y);
-                if (getLoc(loc) == ' ' || getLoc(loc) == 'D')
+                if (getLoc(loc) == ' ' || getLoc(loc) == 'D' || getLoc(loc) == 'H')
                     v.push_back(loc);
             }
         }
@@ -269,24 +267,43 @@ void Dungeon::connect()
         }
     }
     foundDoors.push_back(unfoundDoors[0]);
-    nodes.push_back(unfoundDoors[0]);
+    nodes.push_back(unfoundDoors[0]); // Nodes stores tiles that we can travel to new doors from.
     Coords centerPoint (unfoundDoors[0].first, unfoundDoors[0].second);
 
     unfoundDoors.erase(unfoundDoors.begin());
+
+    int numberOfDoors = 1; // For calculating the rolling average for choosing a center point.
 
     while (unfoundDoors.size() > 0)
     {
         // First, find the closest unfound door to the center point of the found doors.
         // Then, draw a path to that door from the closest point
-        Coords closestDoor = closest(unfoundDoors, centerPoint, true);
-        Coords startPoint = closest(nodes, closestDoor, false);
-        vector<Coords> route =  path(closestDoor, startPoint);
+        Coords closestDoor = closest(unfoundDoors, centerPoint, true); // Finds closest door and remove from vector.
+        Coords startPoint = closest(nodes, closestDoor, false); // Find the closest point to travel to door from.
+        vector<Coords> route = path(closestDoor, startPoint); // A* pathfinding to find a route.
+        nodes.push_back(closestDoor); // Add the door to places we can pathfind from.
 
-        break;
+        for (int i = 0; i < route.size(); ++i)
+        {
+            // Temporarily set hallway tiles to 'H'. Use a temp tile type because I want to let the
+            // pathfinding function pathfind over hallways that have already been placed, but not
+            // through rooms that already have floors in them.
+            setLoc(route[i], 'H');
+            if (i % 4 == 0)
+                // Only one out of four tiles are added to possible path start nodes, since I don't want
+                // the paths to be 100% optimal routes, but rather to be somewhat blocky.
+                nodes.push_back(route[i]);
+        }
+        // Rolling average to update the center point from which we'll look for the next door.
+        numberOfDoors += 1;
+        int updateCenterPointX = centerPoint.first + ((closestDoor.first - centerPoint.first) / numberOfDoors);
+        int updateCenterPointY = centerPoint.second + ((closestDoor.second- centerPoint.second) / numberOfDoors);
+        centerPoint.first = updateCenterPointX;
+        centerPoint.second = updateCenterPointY;
     }
 
-    // Now that corridors have been made, make walls around them.
-//    makeWalls();
+    // Now that corridors have been made, make walls around them and convert them from 'H' tiles to '.' tiles.
+    makeWalls();
 }
 
 Coords Dungeon::closest(vector <Coords> &nodes, Coords point, bool erase)
@@ -318,14 +335,15 @@ vector<Coords> Dungeon::path(Coords start, Coords finish)
     // A* is like Dijkstra's, but with the additional heuristic
     // that nodes that are closer to the destination are given
     // a higher priority in the priority queue.
-    vector<Coords> p;  // Vector to return with the path.
-    map <Coords, Coords> fromLoc;
-    map <Coords, int> costTo;
-    PQ <Coords, int> frontier;
-    frontier.push(start, 0);
+    vector<Coords> pathStartToFinish;
+    map <Coords, Coords> fromLoc; // map to trace back the path from start to finish.
+    map <Coords, int> costTo; // Map to do A* pathfinding with.
+    PQ <Coords, int> frontier; // A priority queue to use in pathfinding.
 
+    frontier.push(start, 0);
     fromLoc[start] = start;
     costTo[start] = 0;
+
 
     while(!frontier.empty())
     {
@@ -352,8 +370,13 @@ vector<Coords> Dungeon::path(Coords start, Coords finish)
 
     // Now we can trace back from the end point to the start point
     // in the fromLoc dictionary.
-
-    return p;
+    Coords current = fromLoc[finish];
+    while(current != start)
+    {
+        pathStartToFinish.push_back(current);
+        current = fromLoc[current];
+    }
+    return pathStartToFinish;
 }
 
 void Dungeon::makeWalls()
@@ -364,17 +387,15 @@ void Dungeon::makeWalls()
         for (int x = 0; x < width; ++x)
         {
             Coords loc (x,y);
+            if (getLoc(loc) == 'H')
+                setLoc(loc, '.');
             vector<char> n = neighbors(loc);
             int floor = count(n.begin(), n.end(), '.');
+            floor += count(n.begin(), n.end(), 'H');
             if (floor != 0 && getLoc(loc) == ' ')
                 setLoc(loc, '#');
         }
     }
-}
-
-void Dungeon:: trim()
-{
-
 }
 
 int Dungeon::randint(int low, int high)
