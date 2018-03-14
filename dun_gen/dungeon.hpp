@@ -3,11 +3,38 @@
 
 #include <vector>
 #include <utility>
+#include <functional>
+#include <queue>
+
 
 using namespace std;
 
 typedef pair<int, int> Coords;
-typedef pair<Coords, int> PQEntry;
+
+template<typename T, typename priority_t>
+struct PQ
+{
+  typedef pair<priority_t, T> PQElement;
+  priority_queue <PQElement, vector<PQElement>,
+        greater<PQElement>> elements;
+
+  inline bool empty() const
+  {
+     return elements.empty();
+  }
+
+  inline void push(T el, priority_t priority)
+  {
+    elements.emplace(priority, el);
+  }
+
+  T pop()
+  {
+    T best = elements.top().second;
+    elements.pop();
+    return best;
+  }
+};
 
 
 class Dungeon

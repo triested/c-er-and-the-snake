@@ -4,43 +4,13 @@
 
 #include <iostream>
 #include <algorithm>
-#include <vector>
 #include <map>
-#include <utility>
 #include <cmath>
-#include <queue>
 #include <stdlib.h>
-#include <functional>
 #include "room.hpp"
 #include "dungeon.hpp"
 
 using namespace std;
-
-template<typename T, typename priority_t>
-struct PQ
-{
-  typedef pair<priority_t, T> PQElement;
-  priority_queue <PQElement, vector<PQElement>,
-        greater<PQElement>> elements;
-
-  inline bool empty() const
-  {
-     return elements.empty();
-  }
-
-  inline void push(T el, priority_t priority)
-  {
-    elements.emplace(priority, el);
-  }
-
-  T pop()
-  {
-    T best = elements.top().second;
-    elements.pop();
-    return best;
-  }
-};
-
 
 Dungeon::Dungeon(int rooms)
 {
@@ -242,21 +212,26 @@ vector<Coords> Dungeon::pathableNeighbors(Coords coord)
 
 void Dungeon::connect()
 {
-/*Vector of all the unfound doors.
- * Starting door.
- * Function to look for things in an ever expanding circle called f.
- * add start door to a vactor of stuff we have already reached.
- * do f on the start door until we find a dorr
- * make a path to the drr add it to vactor of found things, remove it from the vector of unfound doors.
- * set search location to avg(x,y) vacter of things.
- * search for the next thing.
+/* Here's the good part.
+ * Start with a random door, then connect that door to the closest unconnected
+ * door via a path found using A* pathfinding. The pathfinding looks for routes
+ * outside the randomly spawned levels.
+ *
+ * As doors are added, maintain a running average of the centerpoint of the found doors.
+ * It is from this centerpoint that we look for the closest door every time through the
+ * loop that chooses the next door to travel to.
+ *
+ * Next doors are traveled to from either a door already in the list of added doors,
+ * or from a point along a route between doors that has already been added.
+ *
+ * Continue the loop until all doors have been connected.
  * */
 
     vector<Coords> unfoundDoors;
     vector<Coords> foundDoors;
     vector<Coords> nodes;  // This will contain all of the coordinates that we will be storing to walk from.
 
-    // Step one: make a vector of the coords of all the doors.
+    // Make a vector of the coords of all the doors.
     for (int y = 0; y < height; ++y)
     {
         for (int x = 0; x < width; ++x)
@@ -331,10 +306,10 @@ Coords Dungeon::closest(vector <Coords> &nodes, Coords point, bool erase)
 
 vector<Coords> Dungeon::path(Coords start, Coords finish)
 {
-    // Use some A*-ish pathfinding to get a path from a to b.
+    // A* pathfinding to get a path from a to b.
     // A* is like Dijkstra's, but with the additional heuristic
-    // that nodes that are closer to the destination are given
-    // a higher priority in the priority queue.
+    // that nodes that are orthogonally closer to the destination
+    // are given a higher priority in the priority queue.
     vector<Coords> pathStartToFinish;
     map <Coords, Coords> fromLoc; // map to trace back the path from start to finish.
     map <Coords, int> costTo; // Map to do A* pathfinding with.
@@ -343,7 +318,6 @@ vector<Coords> Dungeon::path(Coords start, Coords finish)
     frontier.push(start, 0);
     fromLoc[start] = start;
     costTo[start] = 0;
-
 
     while(!frontier.empty())
     {
