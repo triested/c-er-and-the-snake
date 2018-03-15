@@ -5,4 +5,4 @@
 #include<utility>
 
 enum Direction {RIGHT, UP, LEFT, DOWN};
-typedef Coordinates std::pair<int, int>;
+typedef std::pair<int, int> Coordinates;
