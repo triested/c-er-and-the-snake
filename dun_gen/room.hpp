@@ -18,10 +18,11 @@ public:
 
     // The only public method is one that returns the final room.
     vector< vector<char> > getGrid();
+    void print(); // For debugging.
+    int maxDim, width, height;
 
 private:
     // Private data:
-    int maxDim, width, height;
     char floortype;
     vector< vector<char> > grid;
     vector<char> objects;
