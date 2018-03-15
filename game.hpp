@@ -11,6 +11,7 @@
 #include "tools.hpp"
 #include "dun_gen/dungeon.hpp"
 #include <vector>
+#include <ncurses.h>
 
 class Game
 {

@@ -6,6 +6,7 @@
 #define TOOLS_HPP
 
 #include<utility>
+#include<queue>
 
 enum Direction {RIGHT, UP, LEFT, DOWN};
 typedef std::pair<int, int> Coords;
@@ -13,9 +14,9 @@ typedef std::pair<int, int> Coords;
 template<typename T, typename priority_t>
 struct PQ
 {
-  typedef pair<priority_t, T> PQElement;
-  priority_queue <PQElement, vector<PQElement>,
-        greater<PQElement>> elements;
+  typedef std::pair<priority_t, T> PQElement;
+  std::priority_queue <PQElement, std::vector<PQElement>,
+        std::greater<PQElement>> elements;
 
   inline bool empty() const
   {
