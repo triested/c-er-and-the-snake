@@ -6,7 +6,7 @@
  * */
 
 #include "grid.hpp"
-#include "tools.cpp"
+#include "tools.hpp"
 const char icon = '@';
 
 class Player

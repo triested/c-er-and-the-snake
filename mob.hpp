@@ -12,7 +12,7 @@
 #include <cmath>
 #include <map>
 #include "grid.hpp"
-#include "tools.cpp"
+#include "tools.hpp"
 
 using namespace std;
 

@@ -8,7 +8,7 @@
 #include "player.hpp"
 #include "grid.hpp"
 #include "mob.hpp"
-#include "tools.cpp"
+#include "tools.hpp"
 #include "dun_gen/dungeon.hpp"
 #include <vector>
 
