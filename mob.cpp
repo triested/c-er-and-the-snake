@@ -2,12 +2,13 @@
 
 
 
-Mob::Mob(int x_coord, int y_coord, char repr)
+Mob::Mob(int x_coord, int y_coord, char repr, Grid *grid)
 {
     this->mobX = x_coord;
     this->mobY = y_coord;
-    this->display = 'x';
+    this->display = repr;
     this->underMob = '.';
+    this->grid = grid;
 //    this->grid = ??
 }
 
