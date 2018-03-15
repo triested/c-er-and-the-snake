@@ -50,13 +50,9 @@ bool Mob::adjacentToPlayer(Coords coord)
     {
         for (int x = coord.first - 1; x < coord.first + 2; ++x)
         {
-            // Don't want the tile we're starting from.
-            if (x != coord.first || y != coord.second)
-            {
-                Coords loc (x, y);
-                if (loc == player)
-                    return true;
-            }
+            Coords loc (x, y);
+            if (loc == player)
+                return true;
         }
     }
     return false;
@@ -70,11 +66,6 @@ void Mob::move()
     // that nodes that are orthogonally closer to the destination
     // are given a higher priority in the priority queue when
     // searching for the route.
-    vector<Coords> pathStartToFinish;
-    map <Coords, Coords> fromLoc; // map to trace back the path from start to finish.
-    map <Coords, int> costTo; // Map to do A* pathfinding with.
-    PQ <Coords, int> frontier; // A priority queue to use in pathfinding.
-
     // Init start and finish to current mob location and player location.
     Coords start;
     Coords finish;
@@ -90,7 +81,20 @@ void Mob::move()
             return;
     }
 
-    // If mob is not adjacent, it's pathfinding time.
+    // If the mob is very far from the player, don't bother pathfinding.
+    int distToPlayer = abs(start.first - finish.first) + abs(start.second - finish.second);
+    if (distToPlayer > 80)
+    {
+            return;
+    }
+
+    // Init stuff for A* pathfinding.
+    vector<Coords> pathStartToFinish;
+    map <Coords, Coords> fromLoc; // map to trace back the path from start to finish.
+    map <Coords, int> costTo; // Map to do A* pathfinding with.
+    PQ <Coords, int> frontier; // A priority queue to use in pathfinding.
+
+    // If mob is not adjacent or too far away, it's pathfinding time.
     frontier.push(start, 0);
     fromLoc[start] = start;
     costTo[start] = 0;
@@ -98,6 +102,8 @@ void Mob::move()
     Coords current;
     while(!frontier.empty())
     {
+        // While we still have tiles to search from, 
+        // look from the one with highest priority.
         current = frontier.pop();
 
         if (current == finish)
