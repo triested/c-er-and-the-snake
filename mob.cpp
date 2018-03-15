@@ -145,6 +145,9 @@ void Mob::move()
     }
     // Current is now the tile adjacent to the mob that is on the A* path from the mob to the player.
 
+    // Put whatever the mob is standing on back on the grid.
+    grid->setSquare(mobY, mobX, underMob);
+
     // Remember what is on the tile the mob is about to move to.
     if (grid->isFloor(current.second, current.first))
         this->underMob = FLOOR;
@@ -156,4 +159,7 @@ void Mob::move()
     // Update the mob's position.
     this->mobX = current.first;
     this->mobY = current.second;
+
+    // Set mobs new position on the grid to the mobs representation.
+    grid->setSquare(mobY, mobX, display);
 }

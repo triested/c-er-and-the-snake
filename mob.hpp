@@ -10,6 +10,7 @@
 #include <functional>
 #include <queue>
 #include <cmath>
+#include <map>
 #include "grid.hpp"
 #include "tools.hpp"
 
@@ -55,8 +56,8 @@ class Mob
         char    display;
         char    underMob;
         Grid    *grid;
-        vector<Coords> pathableNeighbors(Coords location);
-        bool adjacentToPlayer(Coords location);
+        bool    adjacentToPlayer(Coords location);
+        vector<Coords>  pathableNeighbors(Coords location);
     public:
         void move();
 };
