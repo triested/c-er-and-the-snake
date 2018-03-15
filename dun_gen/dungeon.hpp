@@ -5,37 +5,9 @@
 #include <utility>
 #include <functional>
 #include <queue>
-
+#include "../tools.hpp"
 
 using namespace std;
-
-typedef pair<int, int> Coords;
-
-template<typename T, typename priority_t>
-struct PQ
-{
-  typedef pair<priority_t, T> PQElement;
-  priority_queue <PQElement, vector<PQElement>,
-        greater<PQElement>> elements;
-
-  inline bool empty() const
-  {
-     return elements.empty();
-  }
-
-  inline void push(T el, priority_t priority)
-  {
-    elements.emplace(priority, el);
-  }
-
-  T pop()
-  {
-    T top = elements.top().second;
-    elements.pop();
-    return top;
-  }
-};
-
 
 class Dungeon
 {

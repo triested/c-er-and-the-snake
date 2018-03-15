@@ -50,7 +50,7 @@ void Player::fire(Direction direction)
     //not yet implemented
 }
 
-Coordinates Player::getLocation()
+Coords Player::getLocation()
 {
     return std::make_pair(x, y);
 }

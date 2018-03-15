@@ -24,6 +24,6 @@ class Player
         //no destructor needed for grid member since it's not allocated here
         void move(Direction direction);
         void fire(Direction direction);
-        Coordinates getLocation();
+        Coords getLocation();
 };
 #endif
