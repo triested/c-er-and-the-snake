@@ -46,7 +46,7 @@ struct PQ
 class Mob
 {
     // Constructor
-    Mob(int x_coord, int y_coord, char repr, const Grid *grid);
+    Mob(int x_coord, int y_coord, char repr, Grid *grid);
     // Destructor
     ~Mob();
 

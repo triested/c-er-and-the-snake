@@ -1,7 +1,6 @@
 #include "mob.hpp"
 
 
-
 Mob::Mob(int x_coord, int y_coord, char repr, Grid *grid)
 {
     this->mobX = x_coord;
@@ -9,14 +8,13 @@ Mob::Mob(int x_coord, int y_coord, char repr, Grid *grid)
     this->display = repr;
     this->underMob = '.';
     this->grid = grid;
-//    this->grid = ??
 }
 
 
-~Mob() {}
+Mob::~Mob() {}
 
 
-vector<Coords> Mob::pathableNeighbors(Coords location)
+vector<Coords> Mob::pathableNeighbors(Coords coord)
 {
     // Returns a vector of the coordinates of tiles adjacent
     // to a given tile into which a mob can try to move.
@@ -40,7 +38,7 @@ vector<Coords> Mob::pathableNeighbors(Coords location)
 }
 
 
-bool Mob::adjacentToPlayer(Coords location)
+bool Mob::adjacentToPlayer(Coords coord)
 {
     // Returns a vector of the coordinates of tiles adjacent
     // to a given tile into which a mob can try to move.
@@ -128,7 +126,7 @@ void Mob::move()
         }
     }
 
-    if (current =! finish)
+    if (current != finish)
         // The most recently considered current coordinate will only be not equal
         // to finish in the event that there is no viable route between the mob
         // and the player, in which case the mob isn't going to move.
