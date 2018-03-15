@@ -1,3 +1,6 @@
+#ifndef MOB_HPP
+#define MOB_HPP
+
 /*
  * This class outlines the games mobs: may serve as base class for others
  * later
@@ -14,4 +17,5 @@ class Mob
         Grid    *grid;
     public:
         void move();
-}
+};
+#endif

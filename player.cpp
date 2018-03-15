@@ -45,6 +45,11 @@ void Player::move(Direction direction)
     }
 }
 
+void Player::fire(Direction direction)
+{
+    //not yet implemented
+}
+
 Coordinates Player::getLocation()
 {
     return std::make_pair(x, y);

@@ -1,3 +1,6 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 /*
  * This file outlines the player class
  * */
@@ -20,5 +23,7 @@ class Player
         Player(Grid *aGrid, const int row, const int col);
         //no destructor needed for grid member since it's not allocated here
         void move(Direction direction);
+        void fire(Direction direction);
         Coordinates getLocation();
 };
+#endif

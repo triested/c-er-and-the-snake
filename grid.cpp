@@ -13,8 +13,8 @@ Grid::Grid(ifstream &inFile)
     length = grid.size();
     /////////////these values only hardcoded til i have format of 
     ////player starting location from Sam
-    x_center = 34;
-    y_center = 46;    
+    x_center = 33;
+    y_center = 45;    
 }
 
 bool Grid::isWall(const int &row, const int &col) const
