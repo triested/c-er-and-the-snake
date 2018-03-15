@@ -1,2 +1,10 @@
 # c-er-and-the-snake
-An ascii art roguelike game
+A roguelike game with ascii terminal style graphics.
+
+
+# Authors
+
+- triested
+- samchamper
+
+

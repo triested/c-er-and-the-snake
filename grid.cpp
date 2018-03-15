@@ -33,6 +33,22 @@ bool Grid::isMob(const int &row, const int &col) const
     return grid[row][col] == MOB;
 }
 
+bool Grid::isHealth(const int &row, const int &col) const
+{
+    return grid[row][col] == HEALTH;
+}
+
+bool Grid::isGold(const int &row, const int &col) const
+{
+    return grid[row][col] == GOLD;
+}
+
+std::pair<int, int> Grid::playerLocation() const
+{
+    std::pair<int, int> loc (x_center, y_center);
+    return loc;
+}
+
 bool Grid::mobsAdjacent(const int &row, const int &col) const
 {
     for(int i = -1; i < 2; i++)

@@ -2,16 +2,20 @@
 #define MOB_HPP
 
 /*
- * This class outlines the games mobs: may serve as base class for others
- * later
- * */
+ * This class outlines the games mobs.
+ * May serve as base class for others later.
+ */
 
 #include <utility>
 #include <functional>
 #include <queue>
+#include <cmath>
 #include "grid.hpp"
+#include "tools.hpp"
 
 using namespace std;
+
+typedef pair<int, int> Coords;
 
 template<typename T, typename priority_t>
 struct PQ
@@ -32,9 +36,9 @@ struct PQ
 
   T pop()
   {
-    T best = elements.top().second;
+    T top = elements.top().second;
     elements.pop();
-    return best;
+    return top;
   }
 };
 
@@ -46,14 +50,14 @@ class Mob
     ~Mob();
 
     private:
-        int     x;
-        int     y;
+        int     mobX;
+        int     mobY;
         char    display;
+        char    underMob;
         Grid    *grid;
+        vector<Coords> pathableNeighbors(Coords location);
+        bool adjacentToPlayer(Coords location);
     public:
         void move();
 };
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 559354fb79266d0997f6d5a9f52ef338176ec1db

@@ -30,9 +30,9 @@ struct PQ
 
   T pop()
   {
-    T best = elements.top().second;
+    T top = elements.top().second;
     elements.pop();
-    return best;
+    return top;
   }
 };
 
