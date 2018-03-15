@@ -77,15 +77,15 @@ void Mob::move()
     // If the mob is next to the player, it won't move, but will attack instead.
     if (adjacentToPlayer(start))
     {
-            //attack();
-            return;
+        //attack();
+        return;
     }
 
     // If the mob is very far from the player, don't bother pathfinding.
     int distToPlayer = abs(start.first - finish.first) + abs(start.second - finish.second);
     if (distToPlayer > 80)
     {
-            return;
+        return;
     }
 
     // Init stuff for A* pathfinding.
@@ -168,3 +168,4 @@ void Mob::move()
     // Set mobs new position on the grid to the mobs representation.
     grid->setSquare(mobY, mobX, display);
 }
+
