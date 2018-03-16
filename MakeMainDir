@@ -1,0 +1,12 @@
+CXX = g++
+CXXFLAGS = -std=c++14 -g -Wall -fstack-protector
+OBJECTS = grid.o mob.o player.o main.o game.o projectile.o ./dun_gen/dungeon.o ./dun_gen/room.o
+
+%.o : %.cpp
+	$(CXX) -c $(CXXFLAGS) $< 
+
+game.exe: $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ -lncurses
+
+clean:
+	$(RM) test-game.exe $(OBJECTS)
