@@ -28,6 +28,11 @@ bool Grid::isFloor(const int &row, const int &col) const
     return grid[row][col] == FLOOR;
 }
 
+bool Grid::isPlayer(const int &row, const int &col) const
+{
+    return grid[row][col] == PLAYER;
+}
+
 bool Grid::isMob(const int &row, const int &col) const
 {
     return grid[row][col] == MOB;

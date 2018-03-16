@@ -33,5 +33,6 @@ class Mob
         vector<Coords>  pathableNeighbors(Coords location);
     public:
         void move();
+        bool isDead();
 };
 #endif

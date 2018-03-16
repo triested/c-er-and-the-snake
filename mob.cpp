@@ -169,3 +169,7 @@ void Mob::move()
     grid->setSquare(mobY, mobX, display);
 }
 
+bool isDead()
+{
+    return grid->isFloor(mobX, mobY) || grid->isPlayer(mobX, mobY);
+}
