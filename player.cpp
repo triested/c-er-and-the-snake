@@ -35,7 +35,7 @@ void Player::move(Direction direction)
             }
             break;
         case DOWN:
-            if (grid->isFloor(x+1, y) || grid->isDoor(x, y-1))
+            if (grid->isFloor(x+1, y) || grid->isDoor(x+1, y))
             {
                 grid->setSquare(x, y, '.');
                 x++;
