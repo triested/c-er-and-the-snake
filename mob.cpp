@@ -3,8 +3,8 @@
 
 Mob::Mob(int x_coord, int y_coord, Grid *grid, char repr)
 {
-    this->mobX = x_coord;
-    this->mobY = y_coord;
+    this->mobX = y_coord;
+    this->mobY = x_coord;
     this->display = repr;
     this->underMob = '.';
     this->grid = grid;
@@ -26,9 +26,10 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
             // Only want orthogonal tiles, don't want the tile we're starting from.
             if ((x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
             {
-                if (grid->isFloor(y, x) || grid->isGold(y, x) || grid->isHealth(y, x))
+                if (grid->isFloor(y,x) || grid->isGold(y,x) || grid->isHealth(y,x) || grid->isPlayer(y,x))
                 {
                     Coords loc (x, y);
+                    printw("  %d  %d ", loc.first, loc.second);
                     neighbors.push_back(loc);
                 }
             }
@@ -36,7 +37,6 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
     }
     return neighbors;
 }
-
 
 bool Mob::adjacentToPlayer(Coords coord)
 {
@@ -70,8 +70,12 @@ void Mob::move()
     Coords finish;
     start.first = mobX;
     start.second = mobY;
-    finish.first = grid->playerLocation().first;
-    finish.second = grid->playerLocation().second;
+    finish.second = grid->playerLocation().first;
+    finish.first = grid->playerLocation().second;
+
+    printw("MOB:: %d %d -",start.first, start.second);
+
+    printw("PLAYER:: %d %d ",finish.first, finish.second);
 
     // If the mob is next to the player, it won't move, but will attack instead.
     if (adjacentToPlayer(start))
@@ -84,6 +88,7 @@ void Mob::move()
     int distToPlayer = abs(start.first - finish.first) + abs(start.second - finish.second);
     if (distToPlayer > 60)
     {
+        printw("MOB TOO FAR");
         return;
     }
 
@@ -105,11 +110,14 @@ void Mob::move()
         // look from the one with highest priority.
         current = frontier.pop();
 
+//        printw("  %d  %d ", current.first, current.second);
         if (current == finish)
+        {
             break;
+        }
 
         vector<Coords> pendingCoords = pathableNeighbors(current);
-
+//        printw("PENDING:  %d  ", pendingCoords.size());
         for (int i = 0; i < pendingCoords.size(); ++i)
         {
             // For each orthogonal neighboring tile the mob can walk to, it will
@@ -135,11 +143,12 @@ void Mob::move()
         // The most recently considered current coordinate will only be not equal
         // to finish in the event that there is no viable route between the mob
         // and the player, in which case the mob isn't going to move.
-        return;
+    {printw("NO PATH FOUND ARG");
+        return;}
 
     // Otherwise, trace back to the first tile in the route between the mob and
     // the player, and set the mobs coordinates to that tile.
-
+    printw("MOB CAN MOVE");
     // Trace back from the end point to the start point in the fromLoc dictionary.
     Coords next = fromLoc[current];
     while(next != start)
