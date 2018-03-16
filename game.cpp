@@ -51,10 +51,12 @@ void Game::moveMobs()
 void Game::moveProjectiles()
 {
     std::list<Projectile>::iterator it = projList.begin();
-    for(; it != projList.end(); it++)
+    while(it != projList.end())
     {
         if(!it->move())
-            projList.erase(it);
+            it = projList.erase(it);
+        else
+            it++;
     }
 }
 
@@ -109,21 +111,24 @@ void Game::fire(Direction direction)
                 board->setSquare(x, y+1, '.');
             else if(board->isFloor(x, y+1))
                 projList.push_back(Projectile(board, std::make_pair(x, y+1), RIGHT));
+            break;
         case UP:
             if(board->isMob(x-1, y))
                 board->setSquare(x-1, y, '.');
             else if(board->isFloor(x-1, y))
-                projList.push_back(Projectile(board, std::make_pair(x-1, y), RIGHT));
+                projList.push_back(Projectile(board, std::make_pair(x-1, y), UP));
+            break;
         case LEFT:
             if(board->isMob(x, y-1))
                 board->setSquare(x, y-1, '.');
             else if(board->isFloor(x, y-1))
-                projList.push_back(Projectile(board, std::make_pair(x, y-1), RIGHT));
+                projList.push_back(Projectile(board, std::make_pair(x, y-1), LEFT));
+            break;
         case DOWN:
             if(board->isMob(x+1, y))
                 board->setSquare(x+1, y, '.');
             else if(board->isFloor(x+1, y))
-                projList.push_back(Projectile(board, std::make_pair(x+1, y), RIGHT));
+                projList.push_back(Projectile(board, std::make_pair(x+1, y), DOWN));
         //default:
     }
 }

@@ -35,8 +35,8 @@ int main()
         clear();
         game.print();
         key = wgetch(win);
-        game.playerAction(key);
         game.moveProjectiles();
+        game.playerAction(key);
         game.moveMobs();
     }
 
