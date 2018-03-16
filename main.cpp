@@ -1,12 +1,10 @@
 #include<cstdio>
 #include<cstdlib>
-#include<fstream>
 #include<cstring>
-#include<unistd.h> //for sleep()
+#include<ctime>
+//#include<unistd.h> //for sleep()
 #include<ncurses.h>
-#include"grid.hpp"
 #include"game.hpp"
-#include"player.hpp"
 
 using namespace std;
 
@@ -14,6 +12,7 @@ void displayTitle(int height, int width);
 
 int main()
 {
+    srand(time(NULL));
     Game game;
     int width, height;
     WINDOW *win;            //initialize ncurses window
