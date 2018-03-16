@@ -77,9 +77,9 @@ void Grid::setSquare(const int row, const int col, const char aChar)
 void Grid::printGrid()
 {
     //print a square with a side length OFFSET*2+1, centered on player
-    for(int i = x_center - OFFSET; i < x_center + OFFSET; i++)
+    for(int i = x_center - V_OFFSET; i < x_center + V_OFFSET; i++)
     {
-        for(int j = y_center - OFFSET; j < y_center + OFFSET; j++)
+        for(int j = y_center - H_OFFSET; j < y_center + H_OFFSET; j++)
         {
             printw("%c", grid[i][j]);
         }
