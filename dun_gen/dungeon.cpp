@@ -178,7 +178,7 @@ int Dungeon::makeRoom()
             return 0;
         }
 
-    // If the room didn't overlap, then we add it to the dungeon.
+    // If the room is good, then add it to the dungeon.
     for (int y = 0; y < rm.height; ++y)
     {
         for (int x = 0; x < rm.width; ++x)
@@ -193,7 +193,7 @@ int Dungeon::makeRoom()
 
 vector<Coords> Dungeon::pathableNeighbors(Coords coord)
 {
-    // Returns a vector of coordinates of tiles adjacent to a tile.
+    // Returns a vector of tiles orthogonally adjacent to a tile.
     vector<Coords> v;
     for (int y = coord.second - 1; y < coord.second + 2; ++y)
     {
@@ -215,11 +215,11 @@ void Dungeon::connect()
 /* Here's the good part.
  * Start with a random door, then connect that door to the closest unconnected
  * door via a path found using A* pathfinding. The pathfinding looks for routes
- * outside the randomly spawned levels.
+ * in the voids between the randomly spawned rooms.
  *
  * As doors are added, maintain a running average of the centerpoint of the found doors.
- * It is from this centerpoint that we look for the closest door every time through the
- * loop that chooses the next door to travel to.
+ * It is from this centerpoint that the algorithm looks for the closest door every time
+ * through the loop that chooses the next door to travel to.
  *
  * Next doors are traveled to from either a door already in the list of added doors,
  * or from a point along a route between doors that has already been added.
@@ -442,3 +442,4 @@ char Dungeon::getLoc(Coords coord)
     else
         return ' ';
 }
+

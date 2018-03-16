@@ -9,11 +9,8 @@ http://www.paulgriffiths.net/program/c/curses.php
 http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html
 */
 
-#include <ncurses.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <vector>
+
+#include "screens.hpp"
 
 using namespace std;
 
@@ -25,18 +22,23 @@ int main()
     // Make a new window thing.
     WINDOW * mainwin;
     if ( (mainwin = initscr()) == NULL ) {
-	    fprintf(stderr, "Error initialising ncurses.\n");
-	exit(EXIT_FAILURE);
+       fprintf(stderr, "Error initialising ncurses.\n");
+    exit(EXIT_FAILURE);
     }
-    int width; int height;
-    getmaxyx(mainwin,height,width); //Determine window size.
-    // Move the cursor to center of screen.
-    mvaddstr(height/2, width/2 - 6, "Title screen?");
-    refresh(); // Display stuff.
-    getch(); // Wait for user input.
-    clear();
-    mvaddstr(height/2, width/2 - 4, "Authors?");
-    refresh(); // Display the stuff.
+//    int width; int height;
+//    getmaxyx(mainwin,height,width); //Determine window size.
+//    // Move the cursor to center of screen.
+//    mvaddstr(height/2, width/2 - 6, "Title screen?");
+//    refresh(); // Display stuff.
+//    getch(); // Wait for user input.
+//    clear();
+//    mvaddstr(height/2, width/2 - 4, "Authors?");
+//    refresh(); // Display the stuff.
+//
+//    getch(); // Wait for user input.
+//    clear();
+
+    screens::printIntroSequence(mainwin);
 
     ////////////////////////////////////////
     // Printing a grid
@@ -69,5 +71,5 @@ int main()
     delwin(mainwin);
     endwin();
     refresh();
-	return 0;
+    return 0;
 }

@@ -4,7 +4,7 @@ CPPFLAGS = -std=c++14 -g -Wall
 %.o : %.cpp
 	$(CXX) -c $(CPPFLAGS) $<
 
-main.exe: main.o
+main.exe: main.o screens.o
 	$(CXX) -o $@ $^ -lncurses
 
 
