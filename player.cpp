@@ -8,7 +8,7 @@ void Player::move(Direction direction)
     switch(direction)
     {
         case RIGHT:
-            if (grid->isFloor(x, y+1))
+            if (grid->isFloor(x, y+1) || grid->isDoor(x, y+1))
             {
                 grid->setSquare(x, y, '.');
                 y++;
@@ -17,7 +17,7 @@ void Player::move(Direction direction)
             }
             break;
         case UP:
-            if (grid->isFloor(x-1, y))
+            if (grid->isFloor(x-1, y) || grid->isDoor(x-1,y))
             {
                 grid->setSquare(x, y, '.');
                 x--;
@@ -26,7 +26,7 @@ void Player::move(Direction direction)
             }
             break;
         case LEFT:
-            if (grid->isFloor(x, y-1))
+            if (grid->isFloor(x, y-1) || grid->isDoor(x, y-1))
             {
                 grid->setSquare(x, y, '.');
                 y--;
@@ -35,7 +35,7 @@ void Player::move(Direction direction)
             }
             break;
         case DOWN:
-            if (grid->isFloor(x+1, y))
+            if (grid->isFloor(x+1, y) || grid->isDoor(x, y-1))
             {
                 grid->setSquare(x, y, '.');
                 x++;
@@ -43,11 +43,6 @@ void Player::move(Direction direction)
                 grid->recenter(x, y);
             }
     }
-}
-
-void Player::fire(Direction direction)
-{
-    //not yet implemented
 }
 
 Coords Player::getLocation()

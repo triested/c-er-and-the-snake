@@ -13,7 +13,7 @@
 using std::vector;
 
 //define display characters
-const char WALL = '#', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
+const char WALL = '#', DOOR = 'D', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
 //the amount of map to display on each side of player icon
 const int OFFSET = 20;
 
@@ -28,6 +28,7 @@ class Grid
     public:
         Grid(vector<vector<char> > &board, const int row, const int col);
         bool isWall(const int &row, const int &col) const;
+        bool isDoor(const int &row, const int &col) const;
         bool isFloor(const int &row, const int &col) const;
         bool isPlayer(const int &row, const int &col) const;
         bool isMob(const int &row, const int &col) const;

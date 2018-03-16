@@ -12,6 +12,10 @@ bool Grid::isWall(const int &row, const int &col) const
     return grid[row][col] == WALL;
 }
 
+bool Grid::isDoor(const int &row, const int &col) const
+{
+    return grid[row][col] == DOOR;
+}
 
 bool Grid::isFloor(const int &row, const int &col) const
 {
