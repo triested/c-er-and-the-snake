@@ -40,8 +40,7 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
 
 bool Mob::adjacentToPlayer(Coords coord)
 {
-    // Returns a vector of the coordinates of tiles adjacent
-    // to a given tile into which a mob can try to move.
+    // Returns true if a mob is adjacent to the player.
     Coords player;
     player.first = grid->playerLocation().first;
     player.second = grid->playerLocation().second;
@@ -83,7 +82,7 @@ void Mob::move()
 
     // If the mob is very far from the player, don't bother pathfinding.
     int distToPlayer = abs(start.first - finish.first) + abs(start.second - finish.second);
-    if (distToPlayer > 80)
+    if (distToPlayer > 60)
     {
         return;
     }
@@ -142,7 +141,7 @@ void Mob::move()
     // the player, and set the mobs coordinates to that tile.
 
     // Trace back from the end point to the start point in the fromLoc dictionary.
-    Coords next = fromLoc[finish];
+    Coords next = fromLoc[current];
     while(next != start)
     {
         current = next;
