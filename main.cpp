@@ -30,20 +30,27 @@ int main()
     /////////display title stuff here
     screens::printIntroSequence(win);
 
-    while(true)
+    try
     {
-        clear();
-        game.print();
-        key = wgetch(win);
-        game.moveProjectiles();
-        if(game.checkHealth())
+        while(true)
         {
-            break;
+            clear();
+            game.print();
+            key = wgetch(win);
+            game.moveProjectiles();
+            if(game.checkHealth())
+            {
+                break;
+            }
+            game.playerAction(key);
+            game.moveMobs();
         }
-        game.playerAction(key);
-        game.moveMobs();
+        screens::printLoseScreen(win);
     }
-    screens::printLoseScreen(win);
+    catch(...)
+    {
+        screens::printWinScreen(win);
+    }
 
     //ncurses cleanup
     delwin(win);

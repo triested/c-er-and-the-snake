@@ -15,6 +15,7 @@ class Player
         int         x;
         int         y;
         int         health;
+        int         wealth;
         Grid        *grid;
         //for multiple-heart runs, implement a buffer period after getting
         //hit... maybe flash icon between @ and o?
