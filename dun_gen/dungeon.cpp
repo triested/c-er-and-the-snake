@@ -101,8 +101,6 @@ void Dungeon::enterExit()
             break;
         }
     }
-    this->startLocation.first = spawnEntrance.first + 6;
-    this->startLocation.second = spawnEntrance.second + 5;
     // Now put the rooms on the map.
     for (int y = 0; y < 10; ++y)
     {
@@ -384,6 +382,12 @@ void Dungeon::makeWalls()
         for (int x = 0; x < width; ++x)
         {
             Coords loc(x, y);
+            if (getLoc(loc) == '@')
+            {
+                this->startLocation.first = loc.first;
+                this->startLocation.second = loc.second;
+            }
+
             vector<char> n = neighbors(loc);
             int voids = count(n.begin(), n.end(), ' ');
             if (voids != 0 && getLoc(loc) == 'D')
