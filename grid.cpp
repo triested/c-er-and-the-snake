@@ -7,6 +7,11 @@ Grid::Grid(vector<vector<char> > &board, const int row, const int col)
     y_center = col;    
 }
 
+bool Grid::isStairs(const int &row, const int &col) const
+{
+    return grid[row][col] == STAIRS;
+}
+
 bool Grid::isWall(const int &row, const int &col) const
 {
     return grid[row][col] == WALL;

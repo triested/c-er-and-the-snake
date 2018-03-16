@@ -26,6 +26,7 @@ class Player
         void move(Direction direction);
         //deal player one HP of damage
         void damage();
+        void heal();
         int getHealth();
         Coords getLocation();
 };
