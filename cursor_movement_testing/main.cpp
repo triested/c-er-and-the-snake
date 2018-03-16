@@ -45,8 +45,9 @@ int main()
     ////////////////////////////////////////
     vector< vector<char> > grid;
     grid.resize(20, vector<char>(20, '.'));
-    int movingThing = 0; // Just something to show that.
-    int prevThing=0;     // Grid is reprinting as intended.
+    int movingThing = 0; 
+    int prevThing=0;    
+    
     char ch;
     while((ch = getch()) != '1')
     {
