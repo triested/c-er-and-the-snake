@@ -27,7 +27,7 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
             if ((x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
             {
                 if (grid->isFloor(y,x) || grid->isGold(y,x) ||
-                     grid->isHealth(y,x) || grid->isPlayer(y,x) || grid->isShot(y,x)
+                     grid->isHealth(y,x) || grid->isPlayer(y,x) || grid->isShot(y,x))
                 {
                     Coords loc (x, y);
                     printw("  %d  %d ", loc.first, loc.second);
