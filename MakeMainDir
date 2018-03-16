@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -Wall -fstack-protector
-OBJECTS = grid.o mob.o player.o main.o game.o projectile.o ./dun_gen/dungeon.o ./dun_gen/room.o
+OBJECTS = grid.o mob.o player.o main.o game.o projectile.o ./dun_gen/dungeon.o ./dun_gen/room.o ./screens/screens.o
 
 %.o : %.cpp
 	$(CXX) -c $(CXXFLAGS) $< 

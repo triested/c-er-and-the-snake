@@ -31,6 +31,8 @@ class Game
         //move each proj, if a move is available to them
         //delete them if hit wall or mob
         void moveProjectiles();
+        //determine if player takes damage this step. returns true if player dies
+        bool checkHealth();
         void print();
         //move or perform other player action for a given key input
         void playerAction(const int key);

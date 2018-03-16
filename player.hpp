@@ -14,7 +14,7 @@ class Player
     private:
         int         x;
         int         y;
-        //int         health;
+        int         health;
         Grid        *grid;
         //for multiple-heart runs, implement a buffer period after getting
         //hit... maybe flash icon between @ and o?
@@ -23,7 +23,9 @@ class Player
         Player(Grid *aGrid, const int row, const int col);
         //no destructor needed for grid member since it's not allocated here
         void move(Direction direction);
-        void fire(Direction direction);
+        //deal player one HP of damage
+        void damage();
+        int getHealth();
         Coords getLocation();
 };
 #endif

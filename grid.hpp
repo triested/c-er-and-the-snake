@@ -35,10 +35,10 @@ class Grid
         bool isHealth(const int &row, const int &col) const;
         bool isGold(const int &row, const int &col) const;
         std::pair<int, int> playerLocation() const;
-        bool mobsAdjacent(const int &row, const int &col) const;
+        bool mobsAdjacent() const;
         void recenter(const int row, const int col);
         void setSquare(const int row, const int col, const char aChar);
-        void printGrid();
+        void printGrid(const int health);
 };
 
 #endif

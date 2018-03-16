@@ -1,7 +1,7 @@
 #include "player.hpp"
 
 Player::Player(Grid *aGrid, const int row, const int col): 
-grid(aGrid), x(row), y(col) {}
+grid(aGrid), x(row), y(col), health(3) {}
     
 void Player::move(Direction direction)
 {
@@ -43,6 +43,17 @@ void Player::move(Direction direction)
                 grid->recenter(x, y);
             }
     }
+}
+
+//damage player one HP
+void Player::damage()
+{
+    health--;
+}
+
+int Player::getHealth()
+{
+    return health;
 }
 
 Coords Player::getLocation()

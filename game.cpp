@@ -68,9 +68,20 @@ void Game::moveProjectiles()
     }
 }
 
+//check player health. return true if player dies
+bool Game::checkHealth()
+{
+    if(board->mobsAdjacent())
+        player->damage();
+    if(player->getHealth() == 0)
+        return true;
+    else
+        return false;
+}
+
 void Game::print()
 {
-    board->printGrid();
+    board->printGrid(player->getHealth());
 }
 
 //move or perform other player->action for a given key input
