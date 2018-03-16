@@ -18,11 +18,6 @@ using namespace std;
 
 class Mob
 {
-    // Constructor
-    Mob(int x_coord, int y_coord, char repr, Grid *grid);
-    // Destructor
-    ~Mob();
-
     private:
         int     mobX;
         int     mobY;
@@ -32,6 +27,10 @@ class Mob
         bool    adjacentToPlayer(Coords location);
         vector<Coords>  pathableNeighbors(Coords location);
     public:
+        // Constructor
+        Mob(int x_coord, int y_coord, char repr, Grid *grid);
+        // Destructor
+        ~Mob();
         void move();
         bool isDead();
 };
