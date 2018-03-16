@@ -49,25 +49,25 @@ void screens::printTxtFile(WINDOW * win, const char* fileName)
 void screens::printIntroSequence(WINDOW * win)
 {
     // Print a series of screens on game start.
-    screens::printTxtFile(win, "title.txt");
+    screens::printTxtFile(win, "/screens/title.txt");
     getch(); // Wait for user input.
-    screens::printTxtFile(win, "snake.txt");
+    screens::printTxtFile(win, "/screens/snake.txt");
     getch(); // Wait for user input.
-    screens::printTxtFile(win, "authors.txt");
+    screens::printTxtFile(win, "/screens/authors.txt");
     getch(); // Wait for user input.
-    screens::printTxtFile(win, "tutorial.txt");
+    screens::printTxtFile(win, "/screens/tutorial.txt");
 }
 
 void screens::printWinScreen(WINDOW * win)
 {
     // Print the victory screen.
-    screens::printTxtFile(win, "win.txt");
+    screens::printTxtFile(win, "/screens/win.txt");
     getch(); // Wait for user input.
 }
 void screens::printLoseScreen(WINDOW * win)
 {
     // Print a screen when you lose.
-    screens::printTxtFile(win, "lose.txt");
+    screens::printTxtFile(win, "/screens/lose.txt");
     getch(); // Wait for user input.
 }
 

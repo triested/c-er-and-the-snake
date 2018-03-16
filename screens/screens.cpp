@@ -56,6 +56,7 @@ void screens::printIntroSequence(WINDOW * win)
     screens::printTxtFile(win, "authors.txt");
     getch(); // Wait for user input.
     screens::printTxtFile(win, "tutorial.txt");
+    getch(); // Wait for user input.
 }
 
 void screens::printWinScreen(WINDOW * win)

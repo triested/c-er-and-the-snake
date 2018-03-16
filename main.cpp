@@ -17,7 +17,7 @@ int main()
     Game game;
     int width, height;
     WINDOW *win;            //initialize ncurses window
-    getmaxyx(win, height, width);
+
     int key;
 
     if((win = initscr()) == nullptr)
@@ -25,6 +25,7 @@ int main()
         cerr << "Error initializing ncurses." << endl;
         exit(EXIT_FAILURE);
     }
+    getmaxyx(win, height, width);
     keypad(win, 1);         //enable full keyboard use
 
     /////////display title stuff here

@@ -74,10 +74,6 @@ void Mob::move()
     finish.second = grid->playerLocation().first;
     finish.first = grid->playerLocation().second;
 
-    printw("MOB:: %d %d -",start.first, start.second);
-
-    printw("PLAYER:: %d %d ",finish.first, finish.second);
-
     // If the mob is next to the player, it won't move, but will attack instead.
     if (adjacentToPlayer(start))
     {
@@ -89,7 +85,6 @@ void Mob::move()
     int distToPlayer = abs(start.first - finish.first) + abs(start.second - finish.second);
     if (distToPlayer > 60)
     {
-        printw("MOB TOO FAR");
         return;
     }
 
@@ -144,12 +139,10 @@ void Mob::move()
         // The most recently considered current coordinate will only be not equal
         // to finish in the event that there is no viable route between the mob
         // and the player, in which case the mob isn't going to move.
-    {printw("NO PATH FOUND ARG");
-        return;}
+        return;
 
     // Otherwise, trace back to the first tile in the route between the mob and
     // the player, and set the mobs coordinates to that tile.
-    printw("MOB CAN MOVE");
     // Trace back from the end point to the start point in the fromLoc dictionary.
     Coords next = fromLoc[current];
     while(next != start)
@@ -180,5 +173,5 @@ void Mob::move()
 
 bool Mob::isDead()
 {
-    return grid->isFloor(mobX, mobY) || grid->isPlayer(mobX, mobY);
+    return grid->isFloor(mobX, mobY) || grid->isPlayer(mobX, mobY) || grid->isShot(mobX, mobY);
 }
