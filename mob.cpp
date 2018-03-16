@@ -26,7 +26,8 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
             // Only want orthogonal tiles, don't want the tile we're starting from.
             if ((x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
             {
-                if (grid->isFloor(y,x) || grid->isGold(y,x) || grid->isHealth(y,x) || grid->isPlayer(y,x))
+                if (grid->isFloor(y,x) || grid->isGold(y,x) ||
+                     grid->isHealth(y,x) || grid->isPlayer(y,x) || grid->isShot(y,x)
                 {
                     Coords loc (x, y);
                     printw("  %d  %d ", loc.first, loc.second);

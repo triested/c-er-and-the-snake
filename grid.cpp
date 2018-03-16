@@ -47,6 +47,11 @@ bool Grid::isGold(const int &row, const int &col) const
     return grid[row][col] == GOLD;
 }
 
+bool Grid::isShot(const int &row, const int &col) const
+{
+    return grid[row][col] == SHOT;
+}
+
 std::pair<int, int> Grid::playerLocation() const
 {
     std::pair<int, int> loc (x_center, y_center);

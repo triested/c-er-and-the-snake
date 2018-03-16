@@ -13,7 +13,8 @@
 using std::vector;
 
 //define display characters
-const char STAIRS = 'S', WALL = '#', DOOR = 'D', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
+const char STAIRS = 'S', WALL = '#', DOOR = 'D', FLOOR = '.', PLAYER = '@',
+        MOB = 'x', HEALTH = 'H', GOLD = 'G' SHOT = 'C';
 //the amount of map to display on each side of player icon
 const int V_OFFSET = 20, H_OFFSET = 40;
 
@@ -35,6 +36,7 @@ class Grid
         bool isMob(const int &row, const int &col) const;
         bool isHealth(const int &row, const int &col) const;
         bool isGold(const int &row, const int &col) const;
+        bool isShot(const int &row, const int &col) const;
         std::pair<int, int> playerLocation() const;
         bool mobsAdjacent() const;
         void recenter(const int row, const int col);
