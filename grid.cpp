@@ -84,16 +84,21 @@ void Grid::setSquare(const int row, const int col, const char aChar)
     grid[row][col] = aChar;
 }
 
-void Grid::printGrid(const int health)
+void Grid::printGrid(const int health, const int wealth)
 {
     //print HP
     printw("HP: %d ", health);
-    //print a square with a side length OFFSET*2+1, centered on player
     for(int j = y_center - H_OFFSET + 6; j < y_center + H_OFFSET; j++)
         printw("%c", grid[0][j]);
     printw("\n");
+    //print gold
+    printw("Gold: %d ", wealth);
+    for(int j = y_center - H_OFFSET + 8; j < y_center + H_OFFSET; j++)
+        printw("%c", grid[1][j]);
+    //print a square with a side length OFFSET*2+1, centered on player
+    printw("\n");
 
-    for(int i = x_center - V_OFFSET + 1; i < x_center + V_OFFSET; i++)
+    for(int i = x_center - V_OFFSET + 2; i < x_center + V_OFFSET; i++)
     {
         for(int j = y_center - H_OFFSET; j < y_center + H_OFFSET; j++)
         {

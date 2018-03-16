@@ -28,6 +28,7 @@ class Player
         void damage();
         void heal();
         int getHealth();
+        int getWealth();
         Coords getLocation();
 };
 #endif

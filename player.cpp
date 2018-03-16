@@ -129,6 +129,11 @@ void Player::heal()
     health++;
 }
 
+int Player::getWealth()
+{
+    return wealth;
+}
+
 int Player::getHealth()
 {
     return health;

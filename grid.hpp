@@ -41,7 +41,7 @@ class Grid
         bool mobsAdjacent() const;
         void recenter(const int row, const int col);
         void setSquare(const int row, const int col, const char aChar);
-        void printGrid(const int health);
+        void printGrid(const int health, const int wealth);
 };
 
 #endif

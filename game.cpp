@@ -81,7 +81,7 @@ bool Game::checkHealth()
 
 void Game::print()
 {
-    board->printGrid(player->getHealth());
+    board->printGrid(player->getHealth(), player->getWealth());
 }
 
 //move or perform other player->action for a given key input
