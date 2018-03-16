@@ -16,7 +16,7 @@ using std::string;
 using std::ifstream;
 
 //define display characters
-const char WALL = '#', FLOOR = '.', MOB = 'x', HEALTH = 'H', GOLD = 'G';
+const char WALL = '#', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
 //the amount of map to display on each side of player icon
 const int OFFSET = 20;
 
@@ -32,6 +32,7 @@ class Grid
         Grid(ifstream &inFile);
         bool isWall(const int &row, const int &col) const;
         bool isFloor(const int &row, const int &col) const;
+        bool isPlayer(const int &row, const int &col) const;
         bool isMob(const int &row, const int &col) const;
         bool isHealth(const int &row, const int &col) const;
         bool isGold(const int &row, const int &col) const;

@@ -5,6 +5,7 @@
 #include<unistd.h> //for sleep()
 #include<ncurses.h>
 #include"grid.hpp"
+#include"game.hpp"
 #include"player.hpp"
 
 using namespace std;
@@ -34,7 +35,9 @@ int main()
         clear();
         game.print();
         key = wgetch(win);
-        Game.playerAction(key);
+        game.moveProjectiles();
+        game.playerAction(key);
+        game.moveMobs();
     }
 
     //ncurses cleanup
