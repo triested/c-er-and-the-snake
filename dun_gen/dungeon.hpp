@@ -2,7 +2,6 @@
 #define DUNGEON_HPP_
 
 #include <vector>
-#include <utility>
 #include <functional>
 #include "../tools.hpp"
 
@@ -39,6 +38,7 @@ private:
     int randint(int low, int high);
     int distance(Coords a, Coords b);
     vector<Coords> pathableNeighbors(Coords coord);
+    Coords closest(vector<Coords> &nodes, Coords point, bool erase);
 
 
 	// Methods to do the important things:
@@ -46,7 +46,6 @@ private:
     int makeRoom();
     void connect();
 
-    Coords closest(vector<Coords> &nodes, Coords point, bool erase);
     vector<Coords> path(Coords a, Coords b);
 
     void makeWalls();

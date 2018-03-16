@@ -202,7 +202,8 @@ vector<Coords> Dungeon::pathableNeighbors(Coords coord)
             if ((x != coord.first || y != coord.second) && (x == coord.first || y == coord.second))
             {
                 Coords loc (x, y);
-                if (getLoc(loc) == ' ' || getLoc(loc) == 'D' || getLoc(loc) == 'H')
+                if (getLoc(loc) == ' ' || getLoc(loc) == 'D' ||
+                        getLoc(loc) == 'W' || getLoc(loc) == '.' || getLoc(loc) == 'G')
                     v.push_back(loc);
             }
         }
@@ -257,13 +258,15 @@ void Dungeon::connect()
         Coords startPoint = closest(nodes, closestDoor, false); // Find the closest point to travel to door from.
         vector<Coords> route = path(closestDoor, startPoint); // A* pathfinding to find a route.
         nodes.push_back(closestDoor); // Add the door to places we can pathfind from.
+        foundDoors.push_back(closestDoor);
 
         for (int i = 0; i < route.size(); ++i)
         {
-            // Temporarily set hallway tiles to 'H'. Use a temp tile type because I want to let the
+            // Temporarily set hallway tiles to 'W'. Use a temp tile type because I want to let the
             // pathfinding function pathfind over hallways that have already been placed, but not
             // through rooms that already have floors in them.
-            setLoc(route[i], 'H');
+            if(getLoc(route[i]) != 'D') // Unless the tile is a door.
+                setLoc(route[i], 'W');
             if (i % 4 == 0)
                 // Only one out of four tiles are added to possible path start nodes, since I don't want
                 // the paths to be 100% optimal routes, but rather to be somewhat blocky.
@@ -277,7 +280,7 @@ void Dungeon::connect()
         centerPoint.second = updateCenterPointY;
     }
 
-    // Now that corridors have been made, make walls around them and convert them from 'H' tiles to '.' tiles.
+    // Now that corridors have been made, make walls around them and convert them from 'W' tiles to '.' tiles.
     makeWalls();
 }
 
@@ -331,7 +334,13 @@ vector<Coords> Dungeon::path(Coords start, Coords finish)
         for (int i = 0; i < pendingCoords.size(); ++i)
         {
             Coords pending = pendingCoords[i];
-            int costToPending = costTo[current] + 1;
+            int costToPending;
+            if (getLoc(pending) == '.')
+                // Prioritise pathfinding through rooms that have already
+                // been placed by assigning a lower cost to moving through '.'s.
+                costToPending = costTo[current];
+            else
+                costToPending = costTo[current] +1;
             if (costTo.find(pending) == costTo.end() || costToPending < costTo[pending])
             {
                 costTo[pending] = costToPending;
@@ -360,14 +369,30 @@ void Dungeon::makeWalls()
     {
         for (int x = 0; x < width; ++x)
         {
-            Coords loc (x,y);
-            if (getLoc(loc) == 'H')
+            Coords loc (x, y);
+            if (getLoc(loc) == 'W')
                 setLoc(loc, '.');
             vector<char> n = neighbors(loc);
             int floor = count(n.begin(), n.end(), '.');
-            floor += count(n.begin(), n.end(), 'H');
+            floor += count(n.begin(), n.end(), 'W');
             if (floor != 0 && getLoc(loc) == ' ')
                 setLoc(loc, '#');
+        }
+    }
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            Coords loc(x, y);
+            vector<char> n = neighbors(loc);
+            int voids = count(n.begin(), n.end(), ' ');
+            if (voids != 0 && getLoc(loc) == 'D')
+                // Sometimes doors are left on the edge of the dungeon.
+                setLoc(loc, '#');
+            if (getLoc(loc) == 'D')
+                if (randint(0, 9) < 1)
+                    // Knock down some doors for a more open modern floor plan.
+                    setLoc(loc, '.');
         }
     }
 }

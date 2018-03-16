@@ -1,0 +1,23 @@
+Move through the dungeon using the WASD keys.
+
+Fire your weapon using the arrow keys.
+
+Dungeon key:
+         .   Floor    
+         #   Walls    
+         G   Gold     
+         H   Health   
+         x   Enemies  
+         S   stairs   
+         @   you!     
+
+Enemies will hurt you if they move on you,
+                           don't let them!
+
+Gold is valuable because of how good it is
+    at conducting electricity! Collect it!
+    
+Make your way to the stairs in order to   
+               escape from the dungeon!   
+               
+How did you end up in a dungeon anyway?
