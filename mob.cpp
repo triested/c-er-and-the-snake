@@ -72,6 +72,17 @@ void Mob::move()
     start.second = mobY;
     finish.second = grid->playerLocation().first;
     finish.first = grid->playerLocation().second;
+    
+    if (!grid->isMob(mobY, mobX))
+    {
+        // If mob is dead, send it to purgatory.
+        grid->setSquare(mobY, mobX, underMob);
+        // Update the mob's position.
+        this->mobX = 1;
+        this->mobY = 1;
+        // Set mobs new position on the grid to the mobs representation.
+        grid->setSquare(mobY, mobX, display);
+    }
 
     // If the mob is next to the player, it won't move, but will attack instead.
     if (adjacentToPlayer(start))
