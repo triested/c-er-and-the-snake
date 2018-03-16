@@ -30,7 +30,6 @@ vector<Coords> Mob::pathableNeighbors(Coords coord)
                      grid->isHealth(y,x) || grid->isPlayer(y,x) || grid->isShot(y,x))
                 {
                     Coords loc (x, y);
-                    printw("  %d  %d ", loc.first, loc.second);
                     neighbors.push_back(loc);
                 }
             }
@@ -175,3 +174,4 @@ bool Mob::isDead()
 {
     return grid->isFloor(mobX, mobY) || grid->isPlayer(mobX, mobY) || grid->isShot(mobX, mobY);
 }
+

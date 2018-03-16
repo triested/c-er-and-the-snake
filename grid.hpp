@@ -14,7 +14,7 @@ using std::vector;
 
 //define display characters
 const char STAIRS = 'S', WALL = '#', DOOR = 'D', FLOOR = '.', PLAYER = '@',
-        MOB = 'x', HEALTH = 'H', GOLD = 'G', SHOT = 'C';
+        MOB = 'x', HEALTH = 'H', GOLD = 'G', SHOT = 'c';
 //the amount of map to display on each side of player icon
 const int V_OFFSET = 20, H_OFFSET = 40;
 
