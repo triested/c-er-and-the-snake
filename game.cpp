@@ -12,8 +12,8 @@ Game::Game()
     int numRooms = 40; //set with random stuff if desired
     Dungeon d(numRooms);
     vector<vector<char> > grid = d.getGrid();
-    board = new Grid(grid, d.startLocation.first, d.startLocation.second);
-    player = new Player(board, d.startLocation.first, d.startLocation.second);
+    board = new Grid(grid, d.startLocation.second, d.startLocation.first);
+    player = new Player(board, d.startLocation.second, d.startLocation.first);
     //find mobs and initialize mobList
     int length = grid.size();
     if(length != 0)
@@ -42,12 +42,15 @@ Game::~Game()
 void Game::moveMobs()
 {
     std::list<Mob>::iterator it = mobList.begin();
-    for(; it != mobList.end(); it++)
+    while( it != mobList.end())
     {
         if(it->isDead())
-            mobList.erase(it);
+            it = mobList.erase(it);
         else
+        {
             it->move();
+            it++;
+        }
     }
 }
 

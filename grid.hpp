@@ -15,7 +15,7 @@ using std::vector;
 //define display characters
 const char WALL = '#', DOOR = 'D', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
 //the amount of map to display on each side of player icon
-const int OFFSET = 20;
+const int V_OFFSET = 20, H_OFFSET = 40;
 
 class Grid
 {
