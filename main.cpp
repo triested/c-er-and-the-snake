@@ -17,7 +17,6 @@ int main()
     Game game;
     int width, height;
     WINDOW *win;            //initialize ncurses window
-
     int key;
 
     if((win = initscr()) == nullptr)
