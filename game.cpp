@@ -5,24 +5,29 @@ list<Mob>           mobList;
 list<Projectile>    projList;
 */
 #include "game.hpp"
-#include <fstream> //delete this once directly constructing dungeon
-#include <cstdlib> //delete this once directly constructing dungeon
-using std::ifstream; //same
 
 //instantiate the dungeon
 Game::Game()
 {
-    ifstream inFile;
-    inFile.open("testMap.txt");
-    if(!inFile)
+    int numRooms = 40; //set with random stuff if desired
+    Dungeon d(numRooms);
+    vector<vector<char> > grid = d.getGrid();
+    board = new Grid(grid, d.startLocation.first, d.startLocation.second);
+    player = new Player(board, d.startLocation.first, d.startLocation.second);
+    //find mobs and initialize mobList
+    int length = grid.size();
+    if(length != 0)
     {
-        cout << "Map file not found! Exiting." << endl;
-        exit(0);
+        int width = grid[0].size();
+        for(int i = 0; i < length; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                if(grid[i][j] == 'x')
+                    mobList.push_back(Mob(i, j, board));
+            }
+        }
     }
-    board = new Grid(inFile);
-    inFile.close();
-    player = new Player(board, 33, 45); //magic numbers from testMap.txt
-    //mobList logic goes here
 }
 
 Game::~Game()

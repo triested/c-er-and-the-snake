@@ -1,20 +1,10 @@
 #include "grid.hpp"
-#include <ncurses.h>
 
-Grid::Grid(ifstream &inFile)
+Grid::Grid(vector<vector<char> > &board, const int row, const int col)
 {
-    string tempString;
-    while(!inFile.eof())
-    {
-        getline(inFile, tempString);
-        grid.push_back(tempString);
-    }
-    width = tempString.length();
-    length = grid.size();
-    /////////////these values only hardcoded til i have format of 
-    ////player starting location from Sam
-    x_center = 33;
-    y_center = 45;    
+    grid = board;
+    x_center = row;
+    y_center = col;    
 }
 
 bool Grid::isWall(const int &row, const int &col) const

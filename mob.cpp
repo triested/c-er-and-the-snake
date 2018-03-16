@@ -1,7 +1,7 @@
 #include "mob.hpp"
 
 
-Mob::Mob(int x_coord, int y_coord, char repr, Grid *grid)
+Mob::Mob(int x_coord, int y_coord, Grid *grid, char repr)
 {
     this->mobX = x_coord;
     this->mobY = y_coord;

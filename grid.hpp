@@ -7,13 +7,10 @@
  * have been saved.
  * */
 #include <vector>
-#include <fstream>
-#include <string>
 #include <iostream>
 #include <utility>
+#include "ncurses.h"
 using std::vector;
-using std::string;
-using std::ifstream;
 
 //define display characters
 const char WALL = '#', FLOOR = '.', PLAYER = '@', MOB = 'x', HEALTH = 'H', GOLD = 'G';
@@ -23,13 +20,13 @@ const int OFFSET = 20;
 class Grid
 {
     private:
-        vector<string>  grid;
+        vector<vector<char> >  grid;
         int width;
         int length;
         int x_center;
         int y_center;
     public:
-        Grid(ifstream &inFile);
+        Grid(vector<vector<char> > &board, const int row, const int col);
         bool isWall(const int &row, const int &col) const;
         bool isFloor(const int &row, const int &col) const;
         bool isPlayer(const int &row, const int &col) const;

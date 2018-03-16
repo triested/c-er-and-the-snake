@@ -28,7 +28,7 @@ class Mob
         vector<Coords>  pathableNeighbors(Coords location);
     public:
         // Constructor
-        Mob(int x_coord, int y_coord, char repr, Grid *grid);
+        Mob(int x_coord, int y_coord, Grid *grid, char repr = 'x');
         // Destructor
         ~Mob();
         void move();
