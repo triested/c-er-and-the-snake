@@ -1,0 +1,65 @@
+Summary:
+  + Strengths: 
+	Nice design, well thought out implementation
+	Good teamwork, managed to accomplish most goals
+	Very good presentation
+  - Weaknesses: 
+	Somewhat uneven team effort
+
+Statistical information for the repository 'C-er_and_the_Snake' was gathered on
+2018/03/18.
+The following historical commit information, by author, was found:
+
+Author                     Commits    Insertions      Deletions    % of changes
+Trieste Desautels               27          1071            400           36.67
+samchamper                      26          2064            476           63.33
+
+Below are the number of rows from each author that have survived and are still
+intact in the current revision:
+
+Author                     Rows      Stability          Age       % in comments
+Trieste Desautels           715           66.8          0.4               10.21
+samchamper                 1654           80.1          0.5               15.60
+
+The following history timeline has been gathered from the repository:
+
+Author                  2018W09    2018W10    2018W11 
+Trieste Desautels                       ++    --+++++ 
+samchamper             --++++++   -+++++++   -+++++++ 
+Modified Rows:              149       1350       2512 
+
+The following files have an elevated cyclomatic complexity (in order of severity):
+dun_gen/dungeon.cpp (127 in cyclomatic complexity)
+dun_gen/testroom.py (122 in cyclomatic complexity)
+dun_gen/room.cpp (107 in cyclomatic complexity)
+
+The following responsibilities, by author, were found in the current revision of
+the repository (comments are excluded from the line count, if possible):
+
+Trieste Desautels is mostly responsible for:
+   143 player.cpp
+   136 game.cpp
+    85 grid.cpp
+    67 projectile.cpp
+    58 main.cpp
+    33 game.hpp
+    32 grid.hpp
+    26 player.hpp
+    19 projectile.hpp
+    19 mob.hpp
+
+samchamper is mostly responsible for:
+   405 dun_gen/dungeon.cpp
+   284 dun_gen/room.cpp
+   184 dun_gen/testroom.py
+   138 mob.cpp
+    63 screens/screens.cpp
+    62 cursor_movement_testing/screens.cpp
+    47 dun_gen/dungeon.hpp
+    44 cursor_movement_testing/main.cpp
+    40 dun_gen/room.hpp
+    29 dun_gen/test.cpp
+
+The extensions below were found in the repository history (extensions used
+during statistical analysis are marked):
+* [cpp] [hpp] md [py] txt 
