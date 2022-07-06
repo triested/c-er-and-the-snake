@@ -8,6 +8,8 @@ A roguelike game with ascii terminal style graphics.
 `cd c-er-and-the-snake`
 `make`
 
+There will be build warnings unless you silence them. Be not afraid.
+
 # To Run
 `./game.exe`
 
