@@ -1,7 +1,11 @@
 /*
- * This file contains various types and helper functions used 
- * throughout the project
- * */
+ * This file defines misc. base types, aliases, and helper functions used 
+ * throughout the project:
+    - enum                    Direction
+    - pair of ints            Coords
+    - priority queue of pairs PQ<,>
+ */
+
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
 
