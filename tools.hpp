@@ -11,9 +11,13 @@
 enum Direction {RIGHT, UP, LEFT, DOWN};
 typedef std::pair<int, int> Coords;
 
+// polymorphic priority queue where each element is pair of a 
+// queue member and its priority.
+// both member and priority types must have std::greater
 template<typename T, typename priority_t>
 struct PQ
 {
+  // a tie in priority will be broken by comparison of members
   typedef std::pair<priority_t, T> PQElement;
   std::priority_queue <PQElement, std::vector<PQElement>,
         std::greater<PQElement>> elements;
