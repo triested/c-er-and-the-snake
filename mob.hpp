@@ -27,7 +27,7 @@ class Mob
         bool    adjacentToPlayer(Coords location);
         vector<Coords>  pathableNeighbors(Coords location);
     public:
-        // Constructor
+        // Constructor with default display value 'x' for small-fry mobs
         Mob(int x_coord, int y_coord, Grid *grid, char repr = 'x');
         // Destructor
         ~Mob();
