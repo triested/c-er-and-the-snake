@@ -3,7 +3,8 @@
 
 /*
  * This file outlines the player class
- * */
+ * 
+ */
 
 #include "grid.hpp"
 #include "tools.hpp"
@@ -17,12 +18,10 @@ class Player
         int         health;
         int         wealth;
         Grid        *grid;
-        //for multiple-heart runs, implement a buffer period after getting
-        //hit... maybe flash icon between @ and o?
-        //bool        hitInvuln;
+        //bool        hitInvuln;    //not yet implemented
     public:
+        //constructor               //no destructor because Grid handles itself
         Player(Grid *aGrid, const int row, const int col);
-        //no destructor needed for grid member since it's not allocated here
         void move(Direction direction);
         //deal player one HP of damage
         void damage();
